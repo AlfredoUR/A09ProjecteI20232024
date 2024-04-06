@@ -3,15 +3,24 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - PlatformTrigger
+  - Game_Manager
+  - Goal
+  - ScoreText
+  - Ground
+  - JunkFood
+  - GoodFood
+  - Enemy
+  - Platform
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background
   - Water
   - UI
-  - 
+  - Game
   - 
   - 
   - 
