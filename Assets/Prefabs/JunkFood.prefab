@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2407138760992979825}
   - component: {fileID: 1694040778227128651}
   - component: {fileID: 8753525244063006946}
+  - component: {fileID: -1255288642542938185}
   m_Layer: 0
   m_Name: JunkFood
   m_TagString: JunkFood
@@ -148,3 +149,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!122 &-1255288642542938185
+Halo:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882434197119297143}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4279506170
+  m_Size: 0.6
