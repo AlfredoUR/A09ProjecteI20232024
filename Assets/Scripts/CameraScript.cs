@@ -18,9 +18,9 @@ public class CameraScript : MonoBehaviour
     {
         //Player_Movement player_Movement; 
         //transform.Rotate(0, -28, 0);
-        Goal = GameObject.FindWithTag("Goal").transform;
-        Player = GameObject.FindWithTag("Player");
-        cameraRb = GetComponent<Rigidbody2D>();
+        //Goal = GameObject.FindWithTag("Goal").transform;
+        //Player = GameObject.FindWithTag("Player");
+        //cameraRb = GetComponent<Rigidbody2D>();
        // playerX = (float)Player.GetComponent<Position>();
         //cameraSpeed = Player.GetComponent<Player_Movement>().speed;
     }
@@ -28,8 +28,8 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cameraSpeed = Player.GetComponent<Player_Movement>().speed;
-        endLevel = Player.GetComponent<Player_Movement>().endLevel;
+        //cameraSpeed = Player.GetComponent<Player_Movement>().speed;
+        //endLevel = Player.GetComponent<Player_Movement>().endLevel;
         if (endLevel == false)
         {
            //cameraRb.velocity = new Vector2(cameraSpeed, cameraRb.velocity.y);

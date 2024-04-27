@@ -7,7 +7,7 @@ public class Game_Manager_Script : MonoBehaviour
 {
 
     public Text scoreText;
-    public Canvas scoreCanvas;
+    //public Canvas scoreCanvas;
     public int score;
 
     //score = 0;
@@ -15,7 +15,7 @@ public class Game_Manager_Script : MonoBehaviour
     void Start()
     {
         //scoreCanvas = Canvas.FindWithTag;
-        scoreText = scoreCanvas.GetComponent<Text>();
+        //scoreText = scoreCanvas.GetComponent<Text>();
         score = 0;
         scoreText.text = ("Score: "+score.ToString());
 
