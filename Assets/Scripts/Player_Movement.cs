@@ -8,23 +8,29 @@ using UnityEngine.UIElements;
 
 public class Player_Movement : MonoBehaviour
 {
-
-    public float speed = 4.0f;
+    private float baseSpeed = 4.0f;
+    public float speed;
+    private float cameraSpeed;
     public float maxSpeed = 6.0f;
     float jumpForce = 1000f;
     float gravity = 0.9f;
+    bool slowing;
+
     public Rigidbody2D rb;
     public GameObject ground;
     public GameObject player;
     public GameObject platform;
     public GameObject platformTrigger;
     public GameObject currentPlatform;
+    public GameObject GameManager;
+    public Transform Camera;
+    
     bool platformFound;
     public bool canTeleport;
     public bool isGrounded ;
     public bool isSprinting ;
     public bool endLevel ;
-
+    public bool gameOver;
 
     Vector2 scaleX;
     public float posX;
@@ -32,7 +38,7 @@ public class Player_Movement : MonoBehaviour
     //Vector2 scaleY;
     public bool playerScaled;
     private float minPlayerWidth = 0.5f;
-
+    private float regularPlayerWidth = 1.0f;
     private float maxPlayerWidth = 2.0f;
 
     float gravityScale ;
@@ -41,9 +47,15 @@ public class Player_Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        speed = baseSpeed;
         float gravityScale = rb.gravityScale;
         isGrounded = false;
         endLevel = false;
+        slowing = false;
+        // reload = GameManager.GetComponent<SceneChanger>();
+
+        cameraSpeed = Camera.GetComponent<CameraScript>().cameraSpeed;
+
         //Physics.gravity = gravity;
         ground = GameObject.FindWithTag("Ground");
         rb = GetComponent<Rigidbody2D>();
@@ -62,11 +74,21 @@ public class Player_Movement : MonoBehaviour
     {
         posX = rb.position.x;
         posY = rb.position.y;
-        if (endLevel == false )
+
+
+        if (gameOver == false)
         {
             rb.velocity = new Vector2(speed, rb.velocity.y);
+            //print(speed);
         }
-
+        else
+        {
+            GameOver();
+        }
+        if (endLevel)
+        {
+            EndLevel();
+        }
        
 
         if (isGrounded == true)
@@ -90,6 +112,12 @@ public class Player_Movement : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.tag == ("Enemy"))
+        {
+            gameOver = true;
+            endLevel = true;
+            SceneManager.LoadScene("GameOver");
+        }
         if (collision.gameObject.tag == ("Ground")|| collision.gameObject.tag == ("Platform"))
         {
             isGrounded = true;
@@ -106,6 +134,7 @@ public class Player_Movement : MonoBehaviour
             Destroy(collision.gameObject);
             playerScaled= false;
         }
+
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -117,6 +146,7 @@ public class Player_Movement : MonoBehaviour
         {
             playerScaled = true;
         }
+
     }
 
 
@@ -141,7 +171,7 @@ public class Player_Movement : MonoBehaviour
             //}
 
 
-        }
+    }
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == ("Goal"))
@@ -168,35 +198,92 @@ public class Player_Movement : MonoBehaviour
                 transform.localScale = scaleX;
                 Debug.Log("Scaling");
                 //playerScaled = true;
-                speed --;
+                speed--;
             }
         }
 
     }
     void PlayerMinDeform()
     {
+        gradualSlow();
         if (playerScaled == false)
         {
             //Deform player
             if (transform.localScale.x < maxPlayerWidth)
             {
                 scaleX = transform.localScale;
-                scaleX.x -= 0.5f;
-                transform.localScale = scaleX;
-                Debug.Log("Scaling");
-                playerScaled = true;
-                if (speed <= maxSpeed)
+                bool regularScale = false;
+                if (transform.localScale.x == regularPlayerWidth)
                 {
-                    speed = maxSpeed;
+                    regularScale = true;
+                }
+
+                if (regularScale)
+                {
                 }
                 else
                 {
-                    speed ++;
+                    scaleX.x = 1.0f;
+                    transform.localScale = scaleX;
+                    Debug.Log("Scaling");
+                    playerScaled = true;
                 }
+
+                if (speed <= maxSpeed)
+                {
+                    speed++;
+                    slowing = true;
+                }
+  
             }
         }
+        //if (transform.localScale.x < regularPlayerWidth)
+        //{
+        //    do
+        //    {
+        //        scaleX = transform.localScale;
+        //        scaleX.x -= 0.5f;
+        //        transform.localScale = scaleX;
+        //        getMaxSpeed();
+        //    }
+        //    while (!slowing);
+        //}
+        //if (transform.localScale.x == regularPlayerWidth)
+        //{
+        //    playerScaled = true;
+        //    Debug.Log("Slowing");
+        //    slowing = true;
+        //}
+
+
     }
 
+    void gradualSlow()
+    {
+        while (slowing)
+        {
+            Debug.Log("Gradually slowing speed ");
+            Debug.Log("Speed is : " + speed);
+            if (speed == baseSpeed)
+            {
+                slowing = false;
+            }
+        }
+   
+    }
+    void getMaxSpeed()
+    {
+        while (speed <= maxSpeed)
+        {
+            speed++;
+            cameraSpeed++;
+            if (speed == maxSpeed)
+            {
+                slowing = true; break;
+            }
+        }
+
+    }
     void platformTeleport()
     {
         ////currentPlatform = platformTrigger.transform.parent.gameObject;
@@ -220,5 +307,17 @@ public class Player_Movement : MonoBehaviour
         //{
         //    GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -1));
         //}
+    }
+
+    void GameOver()
+    {
+
+       SceneManager.LoadScene("GameOverScene");
+        
+    }
+
+    void EndLevel()
+    {
+        SceneManager.LoadScene("GameOverScene");
     }
 }

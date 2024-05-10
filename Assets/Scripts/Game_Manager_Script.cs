@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Game_Manager_Script : MonoBehaviour
 {
+
 
     public Text scoreText;
     //public Canvas scoreCanvas;
@@ -17,12 +19,13 @@ public class Game_Manager_Script : MonoBehaviour
         //scoreCanvas = Canvas.FindWithTag;
         //scoreText = scoreCanvas.GetComponent<Text>();
         score = 0;
-        scoreText.text = ("Score: "+score.ToString());
+       // scoreText.text = ("Score: "+score.ToString());
 
     }
     void Update()
     {
-        addScore();
+
+        //addScore();
         //if (secondTimer >= 1f)
         //{
             
