@@ -24,7 +24,9 @@ public class Player_Movement : MonoBehaviour
     public GameObject currentPlatform;
     public GameObject GameManager;
     public Transform Camera;
-    
+    //public GameObject SceneChanger;
+    public int levelIndex;
+    public bool isTutorial;
     bool platformFound;
     public bool canTeleport;
     public bool isGrounded ;
@@ -47,6 +49,7 @@ public class Player_Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        levelIndex = GameManager.GetComponent<SceneChanger>().GetLevelIndex();
         speed = baseSpeed;
         float gravityScale = rb.gravityScale;
         isGrounded = false;
@@ -76,7 +79,7 @@ public class Player_Movement : MonoBehaviour
         posY = rb.position.y;
 
 
-        if (gameOver == false)
+        if (gameOver != false)
         {
             rb.velocity = new Vector2(speed, rb.velocity.y);
             //print(speed);
@@ -318,6 +321,23 @@ public class Player_Movement : MonoBehaviour
 
     void EndLevel()
     {
-        SceneManager.LoadScene("GameOverScene");
+        switch (levelIndex)
+        {
+            case 0:
+                SceneManager.LoadScene("GameOverScene");
+                break;
+            case 1:
+                SceneManager.LoadScene("GameOverScene");
+                break;
+            case 2:
+                SceneManager.LoadScene("GameOverScene");
+                break;
+            case 3:
+                SceneManager.LoadScene("GameOverScene");
+                break;
+            default:
+                SceneManager.LoadScene("GameOverScene");
+                break;
+        }
     }
 }

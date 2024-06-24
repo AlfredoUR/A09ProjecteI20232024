@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEditor.SearchService;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,11 @@ public class Game_Manager_Script : MonoBehaviour
         //scoreText = scoreCanvas.GetComponent<Text>();
         score = 0;
        // scoreText.text = ("Score: "+score.ToString());
+       //if (Scene = GameM)
+       // {
+        
+
+       // }
 
     }
     void Update()
