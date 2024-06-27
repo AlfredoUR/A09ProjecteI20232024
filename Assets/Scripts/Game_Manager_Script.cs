@@ -121,6 +121,9 @@ public class GameManager_Script : MonoBehaviour
             case 3:
                 tutorialLines = new string[] { "Tina: Un obstacle! Prem l'espai per saltar just quan el tinguis davant" };
                 break;
+            case 4:
+                tutorialLines = new string[] { "Tina: Compte, un enemic! Per embestir-lo prem el shift esquerre un cop estigui en el teu rang. Ho sabràs quan canvïi de color" };
+                break;
             default:
                 tutorialLines = new string[] { "Default tutorial text" };
                 break;

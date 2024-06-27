@@ -17,6 +17,10 @@ public class SceneChanger : MonoBehaviour
         SceneManager.LoadScene("GameOverScene");
     }
 
+    public void LoadTutorial(Scene tutorial)
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
     public void LoadLevel1(Scene tutorial)
     {
         SceneManager.LoadScene("GameMechanics");
