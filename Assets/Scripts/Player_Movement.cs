@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class Player_Movement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     private float baseSpeed = 4.0f;
     public float speed;
@@ -22,44 +22,42 @@ public class Player_Movement : MonoBehaviour
     public GameObject platform;
     public GameObject platformTrigger;
     public GameObject currentPlatform;
-    public GameObject GameManager;
-    public Transform Camera;
-    //public GameObject SceneChanger;
+    public GameObject gameManager;
+    public GameManager_Script gameManagerScript;
+    private Tutorial tutorialScript;
+    public Transform cameraTransform;
+   
     public int levelIndex;
     public bool isTutorial;
     bool platformFound;
     public bool canTeleport;
-    public bool isGrounded ;
-    public bool isSprinting ;
-    public bool endLevel ;
+    public bool isGrounded;
+    public bool isSprinting;
+    public bool endLevel;
     public bool gameOver;
-
+    private bool gamePaused;
     Vector2 scaleX;
     public float posX;
     public float posY;
-    //Vector2 scaleY;
     public bool playerScaled;
     private float minPlayerWidth = 0.5f;
     private float regularPlayerWidth = 1.0f;
     private float maxPlayerWidth = 2.0f;
+    float gravityScale;
 
-    float gravityScale ;
-  
-
-    // Start is called before the first frame update
     void Start()
     {
-        levelIndex = GameManager.GetComponent<SceneChanger>().GetLevelIndex();
+        gameManager = GameObject.FindWithTag("Game_Manager");
+        gameManagerScript = FindObjectOfType<GameManager_Script>();
+        levelIndex = gameManager.GetComponent<SceneChanger>().GetLevelIndex();
         speed = baseSpeed;
-        float gravityScale = rb.gravityScale;
+        gravityScale = rb.gravityScale;
         isGrounded = false;
         endLevel = false;
         slowing = false;
-        // reload = GameManager.GetComponent<SceneChanger>();
+        gamePaused = gameManager.GetComponent<GameManager_Script>().isPaused;
+        //cameraSpeed = cameraTransform.GetComponent<CameraScript>().cameraSpeed;  
 
-        cameraSpeed = Camera.GetComponent<CameraScript>().cameraSpeed;
-
-        //Physics.gravity = gravity;
         ground = GameObject.FindWithTag("Ground");
         rb = GetComponent<Rigidbody2D>();
         isSprinting = false;
@@ -67,201 +65,143 @@ public class Player_Movement : MonoBehaviour
         platform = GameObject.FindWithTag("Platform");
         platformFound = false;
         canTeleport = false;
-        // platformTrigger = platform.GetComponentInChildren<GameObject>();
+
+        if (gameManagerScript == null)
+        {
+            Debug.LogError("GameManager_Script not found in the scene!");
+        }
+        else
+        {
+            tutorialScript = gameManagerScript.GetComponent<Tutorial>();
+            if (tutorialScript == null)
+            {
+                Debug.LogError("Tutorial script not found on GameManager");
+            }
+        }
     }
-
-
-
-    // Update is called once per frame
     void Update()
     {
         posX = rb.position.x;
         posY = rb.position.y;
 
-
-        if (gameOver != false)
+        if (!gameOver && !gamePaused)
         {
-            rb.velocity = new Vector2(speed, rb.velocity.y);
-            //print(speed);
+            if (!endLevel)
+            {
+                rb.velocity = new Vector2(speed, rb.velocity.y);
+            }
+            else
+            {
+                EndLevel();
+            }
         }
         else
         {
             GameOver();
         }
-        if (endLevel)
-        {
-            EndLevel();
-        }
-       
 
-        if (isGrounded == true)
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                rb.AddForce(new Vector2(0, jumpForce *speed* gravity));
-            }         
+            rb.AddForce(new Vector2(0, jumpForce * speed * gravity));
         }
         else
         {
-            rb.velocity = new Vector2(speed, rb.velocity.y* gravity);
+            rb.velocity = new Vector2(speed, rb.velocity.y * gravity);
         }
-
-        //if (Input.GetButton("Up"))
-        //{
-
-        //}
-
-
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == ("Enemy"))
+        switch (collision.gameObject.tag)
         {
-            gameOver = true;
-            endLevel = true;
-            SceneManager.LoadScene("GameOver");
+            case "Enemy":
+                gameOver = true;
+                SceneManager.LoadScene("GameOver");
+                break;
+            case "Goal":
+                endLevel = true;
+                break;
+            case "Ground":
+            case "Platform":
+                isGrounded = true;
+                break;
+            case "JunkFood":
+                PlayerMaxDeform();
+                Destroy(collision.gameObject);
+                playerScaled = false;
+                break;
+            case "GoodFood":
+                PlayerMinDeform();
+                Destroy(collision.gameObject);
+                playerScaled = false;
+                break;
         }
-        if (collision.gameObject.tag == ("Ground")|| collision.gameObject.tag == ("Platform"))
-        {
-            isGrounded = true;
-        }
-        if (collision.gameObject.tag == ("JunkFood"))
-        {
-            PlayerMaxDeform();
-            Destroy(collision.gameObject);
-            playerScaled= false;
-        }
-        if (collision.gameObject.tag == ("GoodFood"))
-        {
-            PlayerMinDeform();
-            Destroy(collision.gameObject);
-            playerScaled= false;
-        }
-
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == ("Ground") || collision.gameObject.tag == ("Platform"))
+        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Platform")
         {
             isGrounded = false;
         }
-        if (collision.gameObject.tag == ("JunkFood"))
-        {
-            playerScaled = true;
-        }
-
     }
 
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == ("Goal"))
+        if (other.gameObject.tag == "Goal")
         {
             endLevel = true;
         }
-        if (other.gameObject.tag == ("PlatformTrigger"))
+        if (other.gameObject.tag == "PlatformTrigger")
         {
-             transform.Translate(new Vector2 (rb.position.x,rb.position.y +8.0f));
+            transform.Translate(new Vector2(rb.position.x, rb.position.y + 8.0f));
+        }
+        if (other.gameObject.tag == "TutorialTrigger")
+        {
             
+            gameManagerScript.PauseGame();
+            other.gameObject.GetComponent<Tutorial>().StartDialogue();
         }
-            //    platformTeleport();
-            //    //if (platformFound==false)
-            //    //{
-            //    //    platformFound = true;
-            //    //    currentPlatform = platformTrigger.transform.parent.gameObject;
-            //    //    platformTeleport();
-            //    //}
-            //}
-
-
     }
-    private void OnTriggerExit2D(Collider2D other)
+
+
+    private void PlayerMaxDeform()
     {
-        if (other.gameObject.tag == ("Goal"))
+        if (!playerScaled && transform.localScale.x > minPlayerWidth)
         {
-            endLevel = true;
+            scaleX = transform.localScale;
+            scaleX.x += 0.5f;
+            transform.localScale = scaleX;
+            Debug.Log("Scaling");
+            speed--;
         }
-        //if (other.gameObject.tag == ("PlatformTrigger"))
-        //{
-        //    platformFound = false;
-        //    platformTeleport();
-        //}
-
-
     }
-    void PlayerMaxDeform()
-    {
-        if (playerScaled == false)
-        {
-            //Deform player
-            if (transform.localScale.x > minPlayerWidth)
-            {
-                scaleX = transform.localScale;
-                scaleX.x += 0.5f;
-                transform.localScale = scaleX;
-                Debug.Log("Scaling");
-                //playerScaled = true;
-                speed--;
-            }
-        }
 
-    }
-    void PlayerMinDeform()
+
+    private void PlayerMinDeform()
     {
         gradualSlow();
-        if (playerScaled == false)
+        if (!playerScaled && transform.localScale.x < maxPlayerWidth)
         {
-            //Deform player
-            if (transform.localScale.x < maxPlayerWidth)
+            scaleX = transform.localScale;
+            if (transform.localScale.x != regularPlayerWidth)
             {
-                scaleX = transform.localScale;
-                bool regularScale = false;
-                if (transform.localScale.x == regularPlayerWidth)
-                {
-                    regularScale = true;
-                }
+                scaleX.x = regularPlayerWidth;
+                transform.localScale = scaleX;
+                Debug.Log("Scaling");
+                playerScaled = true;
+            }
 
-                if (regularScale)
-                {
-                }
-                else
-                {
-                    scaleX.x = 1.0f;
-                    transform.localScale = scaleX;
-                    Debug.Log("Scaling");
-                    playerScaled = true;
-                }
-
-                if (speed <= maxSpeed)
-                {
-                    speed++;
-                    slowing = true;
-                }
-  
+            if (speed <= maxSpeed)
+            {
+                speed++;
+                slowing = true;
             }
         }
-        //if (transform.localScale.x < regularPlayerWidth)
-        //{
-        //    do
-        //    {
-        //        scaleX = transform.localScale;
-        //        scaleX.x -= 0.5f;
-        //        transform.localScale = scaleX;
-        //        getMaxSpeed();
-        //    }
-        //    while (!slowing);
-        //}
-        //if (transform.localScale.x == regularPlayerWidth)
-        //{
-        //    playerScaled = true;
-        //    Debug.Log("Slowing");
-        //    slowing = true;
-        //}
-
-
     }
 
-    void gradualSlow()
+    private void gradualSlow()
     {
         while (slowing)
         {
@@ -272,68 +212,19 @@ public class Player_Movement : MonoBehaviour
                 slowing = false;
             }
         }
-   
     }
-    void getMaxSpeed()
+
+    private void GameOver()
     {
-        while (speed <= maxSpeed)
-        {
-            speed++;
-            cameraSpeed++;
-            if (speed == maxSpeed)
-            {
-                slowing = true; break;
-            }
-        }
-
-    }
-    void platformTeleport()
-    {
-        ////currentPlatform = platformTrigger.transform.parent.gameObject;
-        //if (Input.GetKeyDown(KeyCode.W))
-        //{
-        //    posY += 8.0f;// currentPlatform.transform.position.y;
-        //}
-
-
-    }
-    void FixedUpdate()
-    {
-
-
-        //if (Input.GetKey(KeyCode.UpArrow))
-        //{
-        //    GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1));
-        //}
-
-        //if (Input.GetKey(KeyCode.DownArrow))
-        //{
-        //    GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -1));
-        //}
+        SceneManager.LoadScene("GameOverScene");
     }
 
-    void GameOver()
-    {
-
-       SceneManager.LoadScene("GameOverScene");
-        
-    }
-
-    void EndLevel()
+    private void EndLevel()
     {
         switch (levelIndex)
         {
             case 0:
-                SceneManager.LoadScene("GameOverScene");
-                break;
-            case 1:
-                SceneManager.LoadScene("GameOverScene");
-                break;
-            case 2:
-                SceneManager.LoadScene("GameOverScene");
-                break;
-            case 3:
-                SceneManager.LoadScene("GameOverScene");
+                SceneManager.LoadScene("Level1");
                 break;
             default:
                 SceneManager.LoadScene("GameOverScene");

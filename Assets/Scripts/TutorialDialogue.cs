@@ -7,10 +7,13 @@ using UnityEditor;
 public class Tutorial : MonoBehaviour
 {
     public TextMeshProUGUI tutorialText;
+    public Canvas tutorialCanvas;
+    public GameManager_Script gameManager;
     public string[] lines;
     public float textSpeed;
     public int tutorialStage;
     private int index;
+
     public string zeroTutorial;
     public string firstTutorial;
     public string secondTutorial;
@@ -19,43 +22,49 @@ public class Tutorial : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        index = 0;
-        zeroTutorial = "This is the first stage of the Tutorial, here you will learn how to move";
-        firstTutorial = "Burgers and junk food will make you go slower";
-        secondTutorial = "This is the secondTutorial";
-        thirdTutorial = "This is the third Tutorial";
+        tutorialCanvas.gameObject.SetActive(false);
+        //index = 0;
+        //zeroTutorial = "This is the first stage of the Tutorial, here you will learn how to move";
+        //firstTutorial = "Burgers and junk food will make you go slower";
+        //secondTutorial = "This is the secondTutorial";
+        //thirdTutorial = "This is the third Tutorial";
 
 
-        switch (tutorialStage)
-        {
-            case 0:
-               tutorialText.text = zeroTutorial;
-                StartDialogue();
-                break;
-            case 1:
-                tutorialText.text = firstTutorial; 
-                StartDialogue(); 
-                break;
-            case 2:
-                tutorialText.text = secondTutorial; 
-                StartDialogue(); 
-                break;
-            case 3:
-                tutorialText.text = thirdTutorial;
-                StartDialogue();
-                break;
-            case 4:
-                tutorialText.text = fourthTutorial;
-                StartDialogue();
-                break;
-            default:
-                break;
+        //switch (tutorialStage)
+        //{
+        //    case 0:
+        //       tutorialText.text = zeroTutorial;
+        //        StartDialogue();
+        //        break;
+        //    case 1:
+        //        tutorialText.text = firstTutorial; 
+        //        StartDialogue(); 
+        //        break;
+        //    case 2:
+        //        tutorialText.text = secondTutorial; 
+        //        StartDialogue(); 
+        //        break;
+        //    case 3:
+        //        tutorialText.text = thirdTutorial;
+        //        StartDialogue();
+        //        break;
+        //    case 4:
+        //        tutorialText.text = fourthTutorial;
+        //        StartDialogue();
+        //        break;
+        //    default:
+        //        break;
 
-        }
-        tutorialText.text = string.Empty;
-        StartDialogue();
+        //}
+        //tutorialText.text = string.Empty;
+        //StartDialogue();
     }
 
+    public void SetTutorialText(string[] tutorialLines)
+    {
+        lines = tutorialLines;
+        StartDialogue();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -73,9 +82,12 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    void StartDialogue()
+    public void StartDialogue()
     {
         index = 0;
+        //tutorialText.text = zeroTutorial;
+        tutorialText.text = string.Empty;
+        tutorialCanvas.gameObject.SetActive(true);
         StartCoroutine(Typeline());
     }
 
@@ -99,6 +111,8 @@ public class Tutorial : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
+            tutorialCanvas.gameObject.SetActive(false);
+            gameManager.ResumeGame();
         }
     }
 }
