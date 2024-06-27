@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3212949358504780710}
   - component: {fileID: 3263683519082237027}
   m_Layer: 0
-  m_Name: Game_Manager
+  m_Name: GameManager
   m_TagString: Game_Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3212949358504780710
 MonoBehaviour:
@@ -47,6 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 0}
   score: 0
+  tutorialIndex: 0
+  isPaused: 0
+  pauseTime: 0
 --- !u!114 &3263683519082237027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,3 +64,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameOverScene:
     m_Handle: 0
+  sceneName: 

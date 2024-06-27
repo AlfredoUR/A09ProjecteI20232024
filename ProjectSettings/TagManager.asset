@@ -13,9 +13,8 @@ TagManager:
   - GoodFood
   - Enemy
   - Platform
-  - Tutorial1
-  - Tutorial2
-  - Tutorial3
+  - TutorialTrigger
+  - TutorialCanvas
   layers:
   - Default
   - TransparentFX
