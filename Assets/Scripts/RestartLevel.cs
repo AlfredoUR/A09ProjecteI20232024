@@ -18,6 +18,11 @@ public class RestartLevel : MonoBehaviour
     }
 
 
+    public void LoadTutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
+
     public void LoadLevel1()
     {
         SceneManager.LoadScene("GameMechanics");

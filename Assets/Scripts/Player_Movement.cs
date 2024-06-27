@@ -8,13 +8,28 @@ using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private float baseSpeed = 4.0f;
+    //Base
+    private float baseSpeed = 5.0f;
     public float speed;
     private float cameraSpeed;
-    public float maxSpeed = 6.0f;
+    public float maxSpeed = 7.0f;
     float jumpForce = 1000f;
     float gravity = 0.9f;
     bool slowing;
+    //Dashing
+    private bool isDashing = false;
+    private float dashTime;
+    public float dashSpeed = 12.0f;
+    public float dashDuration = 0.5f;
+    public float dashDistance = 5.5f;
+    private bool canDash = false;
+    private Vector2 dashStartPos;
+    //Invulnerable
+    private bool isInvulnerable = false;
+    private float invulnerabilityEndTime;
+    //Speeed +
+    private bool isSpeedBoosted = false;
+    private float speedBoostEndTime;
 
     public Rigidbody2D rb;
     public GameObject ground;
@@ -32,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
     bool platformFound;
     public bool canTeleport;
     public bool isGrounded;
-    public bool isSprinting;
     public bool endLevel;
     public bool gameOver;
     private bool gamePaused;
@@ -60,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
 
         ground = GameObject.FindWithTag("Ground");
         rb = GetComponent<Rigidbody2D>();
-        isSprinting = false;
+        isDashing = false;
 
         platform = GameObject.FindWithTag("Platform");
         platformFound = false;
@@ -108,13 +122,87 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(speed, rb.velocity.y * gravity);
         }
+        if (isGrounded)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && canDash)
+            {
+                StartDash();
+            }
+
+            if (isDashing)
+            {
+                dashTime -= Time.deltaTime;
+                if (dashTime <= 0 || Vector2.Distance(dashStartPos, rb.position) >= dashDistance)
+                {
+                    EndDash();
+                }
+
+            }
+        }
+
+        if (isInvulnerable && Time.time >= invulnerabilityEndTime)
+        {
+            isInvulnerable = false;
+        }
+
+        if (isSpeedBoosted && Time.time >= speedBoostEndTime)
+        {
+            isSpeedBoosted = false;
+            speed = baseSpeed;
+        }
+    }
+    void FixedUpdate()
+    {
+        if (!isDashing)
+        {
+            rb.velocity = new Vector2(speed, rb.velocity.y);
+        }
+    }
+
+    private void StartDash()
+    {
+        isDashing = true;
+        dashTime = dashDuration;
+        dashStartPos = rb.position;
+        rb.velocity = new Vector2(dashSpeed, rb.velocity.y);
+    }
+
+    private void EndDash()
+    {
+        isDashing = false;
+        rb.velocity = new Vector2(speed, rb.velocity.y);
+    }
+    public void SetCanDash(bool value)
+    {
+        canDash = value;
+    }
+
+    public void ActivateInvulnerability(float duration)
+    {
+        isInvulnerable = true;
+        invulnerabilityEndTime = Time.time + duration;
+    }
+
+    public bool IsInvulnerable()
+    {
+        return isInvulnerable;
+    }
+    public void ActivateSpeedBoost(float duration)
+    {
+        isSpeedBoosted = true;
+        speedBoostEndTime = Time.time + duration;
+        speed *= 2; // Augmenta la velocitat
+    }
+    public void GainTeleport()
+    {
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         switch (collision.gameObject.tag)
         {
-            case "Enemy":
+            case "Obstacle":
                 gameOver = true;
                 SceneManager.LoadScene("GameOver");
                 break;
@@ -158,10 +246,15 @@ public class PlayerMovement : MonoBehaviour
             transform.Translate(new Vector2(rb.position.x, rb.position.y + 8.0f));
         }
         if (other.gameObject.tag == "TutorialTrigger")
-        {
-            
+        {           
             gameManagerScript.PauseGame();
             other.gameObject.GetComponent<Tutorial>().StartDialogue();
+        }
+
+        if (other.gameObject.tag == "Enemy" && isDashing)
+        {
+            Destroy(other.gameObject);
+
         }
     }
 
