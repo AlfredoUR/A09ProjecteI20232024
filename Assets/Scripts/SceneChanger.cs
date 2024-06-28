@@ -21,7 +21,7 @@ public class SceneChanger : MonoBehaviour
     {
         SceneManager.LoadScene("Tutorial");
     }
-    public void LoadLevel1(Scene tutorial)
+    public void LoadLevel1(Scene level1)
     {
         SceneManager.LoadScene("GameMechanics");
     }
@@ -33,9 +33,7 @@ public class SceneChanger : MonoBehaviour
 
     public string GetCurrentSceneName()
     {
-        // Obtenim l'escena actual
         Scene currentScene = SceneManager.GetActiveScene();
-        // Retornem el nom de l'escena actual
         return currentScene.name;
     }
 

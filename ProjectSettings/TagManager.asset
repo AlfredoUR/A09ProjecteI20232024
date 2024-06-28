@@ -16,6 +16,7 @@ TagManager:
   - TutorialTrigger
   - TutorialCanvas
   - Obstacle
+  - PowerUp
   layers:
   - Default
   - TransparentFX
