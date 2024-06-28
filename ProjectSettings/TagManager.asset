@@ -25,7 +25,7 @@ TagManager:
   - Water
   - UI
   - Game
-  - 
+  - GroundLayer
   - 
   - 
   - 
@@ -56,6 +56,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: GroundLayer
+    uniqueID: 1329884711
     locked: 0
   - name: Game
     uniqueID: 2441432213
