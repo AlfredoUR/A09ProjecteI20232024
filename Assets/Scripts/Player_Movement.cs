@@ -404,7 +404,7 @@ public class PlayerMovement : MonoBehaviour
                 SceneManager.LoadScene("Level1");
                 break;
             case 1:
-                SceneManager.LoadScene("Level2");
+                SceneManager.LoadScene("MainMenu");
                 break;
             case 2:
                 SceneManager.LoadScene("Level3");
