@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FlyingEnemy : MonoBehaviour
 {
-    public float moveDistance = 5.0f;
+    public float moveDistance = 5.0f; 
     public float moveSpeed = 2.0f;    
     public bool moveHorizontally = true; 
 
@@ -22,6 +22,13 @@ public class FlyingEnemy : MonoBehaviour
         else
         {
             targetPosition = new Vector2(initialPosition.x, initialPosition.y + moveDistance);
+        }
+
+        
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.gravityScale = 0;
         }
     }
 
@@ -52,4 +59,3 @@ public class FlyingEnemy : MonoBehaviour
         }
     }
 }
-
