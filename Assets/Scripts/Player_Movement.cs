@@ -31,6 +31,11 @@ public class PlayerMovement : MonoBehaviour
     //Speeed +
     private bool isSpeedBoosted = false;
     private float speedBoostEndTime;
+    //Teleport
+    private bool canTeleport = false;
+    private float teleportX;
+    private float teleportY;
+    private float teleportEndTime;
 
     public Rigidbody2D rb;
     public GameObject ground;
@@ -46,7 +51,6 @@ public class PlayerMovement : MonoBehaviour
     public int levelIndex;
     public bool isTutorial;
     bool platformFound;
-    public bool canTeleport;
     public bool isGrounded;
     public bool endLevel;
     public bool gameOver;
@@ -156,6 +160,16 @@ public class PlayerMovement : MonoBehaviour
                 isSpeedBoosted = false;
                 speed = baseSpeed;
             }
+
+            if (canTeleport && Time.time >= teleportEndTime)
+            {
+                canTeleport = false;
+            }
+
+            if (canTeleport && Input.GetKeyDown(KeyCode.Z))
+            {
+                Teleport();
+            }
         }
         
     }
@@ -208,9 +222,17 @@ public class PlayerMovement : MonoBehaviour
             speed = maxSpeed;
         }
     }
-    public void GetTeleport()
+    public void ActivateTeleport(float xTeleport, float yTeleport, float duration)
     {
-        transform.Translate(new Vector2(0.0f, + 8.0f));
+        canTeleport = true;
+        teleportX = xTeleport;
+        teleportY = yTeleport;
+        teleportEndTime = Time.time + duration;
+    }
+    public void Teleport()
+    {
+        transform.Translate(new Vector2(0.0f+ teleportX, 0.0f+ teleportY));
+        canTeleport = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

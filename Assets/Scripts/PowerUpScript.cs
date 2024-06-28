@@ -60,7 +60,7 @@ public class PowerUp : MonoBehaviour
                 playerMovement.ActivateSpeedBoost(duration);
                 break;
             case PowerUpType.Teleport:
-                playerMovement.GetTeleport();
+                playerMovement.Teleport();
                 break;
         }
     }
