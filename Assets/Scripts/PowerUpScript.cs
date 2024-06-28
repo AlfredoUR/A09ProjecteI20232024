@@ -7,11 +7,18 @@ public class PowerUp : MonoBehaviour
     public enum PowerUpType { Invulnerability, SpeedBoost, Teleport }
     public PowerUpType powerUpType;
 
+
+
     public float duration = 5.0f;
     public Sprite invulnerabilitySprite;
     public Sprite speedBoostSprite;
     public Sprite teleportSprite;
-
+    //Teleport
+    public float valueX;
+    public float valueY;
+    //SpeedBoost
+    public float speedBoostMultiplier = 2.0f;
+    private float speedBoostDuration = 5.0f;
     private SpriteRenderer spriteRenderer;
 
     void Start()
@@ -57,10 +64,11 @@ public class PowerUp : MonoBehaviour
                 playerMovement.ActivateInvulnerability(duration);
                 break;
             case PowerUpType.SpeedBoost:
-                playerMovement.ActivateSpeedBoost(duration);
+                playerMovement = playerMovement.GetComponent<PlayerMovement>();
+                playerMovement.ActivateSpeedBoost(speedBoostMultiplier, speedBoostDuration);
                 break;
             case PowerUpType.Teleport:
-                playerMovement.Teleport();
+                playerMovement.ActivateTeleport(valueX, valueY, duration);
                 break;
         }
     }

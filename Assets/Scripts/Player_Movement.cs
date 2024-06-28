@@ -31,12 +31,15 @@ public class PlayerMovement : MonoBehaviour
     //Speeed +
     private bool isSpeedBoosted = false;
     private float speedBoostEndTime;
+    public float boostSpeed = 7.0f;
     //Teleport
     private bool canTeleport = false;
     private float teleportX;
     private float teleportY;
     private float teleportEndTime;
 
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
     public Rigidbody2D rb;
     public GameObject ground;
     public GameObject player;
@@ -85,6 +88,12 @@ public class PlayerMovement : MonoBehaviour
         platform = GameObject.FindWithTag("Platform");
         platformFound = false;
         canTeleport = false;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            originalColor = spriteRenderer.color;
+        }
 
         if (gameManagerScript == null)
         {
@@ -153,17 +162,20 @@ public class PlayerMovement : MonoBehaviour
             if (isInvulnerable && Time.time >= invulnerabilityEndTime)
             {
                 isInvulnerable = false;
+                SetColor(originalColor);
             }
 
             if (isSpeedBoosted && Time.time >= speedBoostEndTime)
             {
                 isSpeedBoosted = false;
                 speed = baseSpeed;
+                SetColor(originalColor);
             }
 
             if (canTeleport && Time.time >= teleportEndTime)
             {
                 canTeleport = false;
+                SetColor(originalColor);
             }
 
             if (canTeleport && Input.GetKeyDown(KeyCode.Z))
@@ -206,21 +218,28 @@ public class PlayerMovement : MonoBehaviour
     {
         isInvulnerable = true;
         invulnerabilityEndTime = Time.time + duration;
+        SetColor(Color.yellow);
     }
 
     public bool IsInvulnerable()
     {
         return isInvulnerable;
     }
-    public void ActivateSpeedBoost(float duration)
+    public void ActivateSpeedBoost(float boost, float duration)
     {
-        duration = 2.0f;
-        isSpeedBoosted = true;
-        speedBoostEndTime = Time.time + duration;
-        if (isSpeedBoosted)
+        if (transform.localScale.x != regularPlayerWidth)
         {
-            speed = maxSpeed;
+            scaleX.x = regularPlayerWidth;
+            //transform.localScale = scaleX;
         }
+        boostSpeed = boost;
+        //duration = 2.0f;
+        isSpeedBoosted = true;
+        speed = boostSpeed;
+        speedBoostEndTime = Time.time + duration;
+
+        SetColor(Color.cyan);
+        
     }
     public void ActivateTeleport(float xTeleport, float yTeleport, float duration)
     {
@@ -228,11 +247,21 @@ public class PlayerMovement : MonoBehaviour
         teleportX = xTeleport;
         teleportY = yTeleport;
         teleportEndTime = Time.time + duration;
+        SetColor(Color.magenta);
     }
     public void Teleport()
     {
         transform.Translate(new Vector2(0.0f+ teleportX, 0.0f+ teleportY));
         canTeleport = false;
+        SetColor(originalColor);
+    }
+
+    public void SetColor(Color color)
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = color;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -294,6 +323,7 @@ public class PlayerMovement : MonoBehaviour
                 other.gameObject.GetComponent<Tutorial>().StartDialogue();
                 break;
             case "Enemy":
+            case "Obstacle":
                 if (isDashing || isInvulnerable)
                 {
                     Destroy(other.gameObject);
@@ -372,6 +402,12 @@ public class PlayerMovement : MonoBehaviour
         {
             case 0:
                 SceneManager.LoadScene("Level1");
+                break;
+            case 1:
+                SceneManager.LoadScene("Level2");
+                break;
+            case 2:
+                SceneManager.LoadScene("Level3");
                 break;
             default:
                 SceneManager.LoadScene("GameOverScene");
