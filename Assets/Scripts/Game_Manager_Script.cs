@@ -81,13 +81,10 @@ public class GameManager_Script : MonoBehaviour
         //}
     }
 
-    private void addScore()
+   public void addScore()
     {
-        if (!isPaused)
-        {
-            score++;
-            scoreText.text = ("Score: " + score.ToString());
-        }
+        score++;
+        scoreText.text = ("Score: " + score.ToString());    
     }
 
     public void PauseGame()
@@ -113,16 +110,25 @@ public class GameManager_Script : MonoBehaviour
                 tutorialLines = new string[] { "Tina: Ara t'ensenyarï¿½ a moure't amb la teva nova taula. De moment ella marcarï¿½ el camï¿½ sola. (Clica a qualsevol lloc per continuar)" };
                 break;
             case 1:
-                tutorialLines = new string[] { "Evita les hamburgueses, et faran anar mï¿½s lent.(Clica a qualsevol lloc per continuar)" };
+                tutorialLines = new string[] { "Evita les hamburgueses, et faran anar mï¿½s lent." };
                 break;
             case 2:
-                tutorialLines = new string[] { "En Sergi ha preparat aquestes begudes mï¿½giques et poden ajudar a seguir endavant. Per exemple aquesta t'augmenta la velï¿½locitat." };
+                tutorialLines = new string[] { "En Sergi ha preparat aquestes begudes mï¿½giques que et poden ajudar a seguir endavant. Per exemple aquesta t'augmenta la velï¿½locitat." };
                 break;
             case 3:
-                tutorialLines = new string[] { "Tina: Un obstacle! Prem l'espai per saltar just quan el tinguis davant" };
+                tutorialLines = new string[] { "Un obstacle! Prem l'espai per saltar just quan el tinguis davant." };
                 break;
             case 4:
-                tutorialLines = new string[] { "Tina: Compte, un enemic! Per embestir-lo prem el shift esquerre un cop estigui en el teu rang. Ho sabràs quan canvïi de color" };
+                tutorialLines = new string[] { "Compte, un enemic! Per embestir-lo prem el shift esquerre un cop estigui en el teu rang. Ho sabrï¿½s quan canvï¿½i de color." };
+                break;
+            case 5:
+                tutorialLines = new string[] { "Encara que sembli que no podrï¿½s passar per aquï¿½ no et preocupis. El poder d'aquesta llauna et farï¿½ intangible durant uns segons." };
+                break;
+            case 6:
+                tutorialLines = new string[] { "Forats? No passa res, ho tenï¿½em tot calculat. Amb aquesta ï¿½ltima llauna podrï¿½s teletransportar-te a una ubicaciï¿½ superior i esquivar perills." };
+                break;
+            case 7:
+                tutorialLines = new string[] { "I fins aquï¿½ la guia, ara pots sortir a salvar la ciutat. " };
                 break;
             default:
                 tutorialLines = new string[] { "Default tutorial text" };

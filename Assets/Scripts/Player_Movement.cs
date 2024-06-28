@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     //Base
     private float baseSpeed = 5.0f;
     public float speed;
+    private float previousSpeed;
     private float cameraSpeed;
     public float maxSpeed = 7.0f;
     float jumpForce = 1000f;
@@ -19,9 +20,9 @@ public class PlayerMovement : MonoBehaviour
     //Dashing
     private bool isDashing = false;
     private float dashTime;
-    public float dashSpeed = 12.0f;
-    public float dashDuration = 0.5f;
-    public float dashDistance = 5.5f;
+    public float dashSpeed = 20.0f;
+    public float dashDuration = 0.9f;
+    public float dashDistance = 20.0f;
     private bool canDash = false;
     private Vector2 dashStartPos;
     //Invulnerable
@@ -65,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         gameManagerScript = FindObjectOfType<GameManager_Script>();
         levelIndex = gameManager.GetComponent<SceneChanger>().GetLevelIndex();
         speed = baseSpeed;
+        previousSpeed = speed;
         gravityScale = rb.gravityScale;
         isGrounded = false;
         endLevel = false;
@@ -114,42 +116,48 @@ public class PlayerMovement : MonoBehaviour
             GameOver();
         }
 
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+
+        if (!gamePaused)
         {
-            rb.AddForce(new Vector2(0, jumpForce * speed * gravity));
-        }
-        else
-        {
-            rb.velocity = new Vector2(speed, rb.velocity.y * gravity);
-        }
-        if (isGrounded)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && canDash)
+            if (isGrounded && Input.GetKeyDown(KeyCode.Space))
             {
-                StartDash();
+                rb.AddForce(new Vector2(0, jumpForce * speed * gravity));
+            }
+            else
+            {
+                rb.velocity = new Vector2(speed, rb.velocity.y * gravity);
             }
 
-            if (isDashing)
+            if (isGrounded)
             {
-                dashTime -= Time.deltaTime;
-                if (dashTime <= 0 || Vector2.Distance(dashStartPos, rb.position) >= dashDistance)
+                if (Input.GetKeyUp(KeyCode.LeftShift) && !isDashing && canDash)
                 {
-                    EndDash();
+                    StartDash();
                 }
 
+                if (isDashing)
+                {
+                    dashTime -= Time.deltaTime;
+                    if (dashTime <= 0 || Vector2.Distance(dashStartPos, rb.position) >= dashDistance)
+                    {
+                        EndDash();
+                    }
+
+                }
+            }
+
+            if (isInvulnerable && Time.time >= invulnerabilityEndTime)
+            {
+                isInvulnerable = false;
+            }
+
+            if (isSpeedBoosted && Time.time >= speedBoostEndTime)
+            {
+                isSpeedBoosted = false;
+                speed = baseSpeed;
             }
         }
-
-        if (isInvulnerable && Time.time >= invulnerabilityEndTime)
-        {
-            isInvulnerable = false;
-        }
-
-        if (isSpeedBoosted && Time.time >= speedBoostEndTime)
-        {
-            isSpeedBoosted = false;
-            speed = baseSpeed;
-        }
+        
     }
     void FixedUpdate()
     {
@@ -161,6 +169,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void StartDash()
     {
+        previousSpeed = speed;
+        speed *= 2.5f;
         isDashing = true;
         dashTime = dashDuration;
         dashStartPos = rb.position;
@@ -169,6 +179,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void EndDash()
     {
+        speed = previousSpeed;
         isDashing = false;
         rb.velocity = new Vector2(speed, rb.velocity.y);
     }
@@ -189,13 +200,17 @@ public class PlayerMovement : MonoBehaviour
     }
     public void ActivateSpeedBoost(float duration)
     {
+        duration = 2.0f;
         isSpeedBoosted = true;
         speedBoostEndTime = Time.time + duration;
-        speed *= 2; // Augmenta la velocitat
+        if (isSpeedBoosted)
+        {
+            speed = maxSpeed;
+        }
     }
-    public void GainTeleport()
+    public void GetTeleport()
     {
-
+        transform.Translate(new Vector2(0.0f, + 8.0f));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -203,8 +218,15 @@ public class PlayerMovement : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "Obstacle":
-                gameOver = true;
-                SceneManager.LoadScene("GameOver");
+                if (!isInvulnerable)
+                {
+                    gameOver = true;
+                    GameOver();
+                }
+                else
+                {
+                    Destroy(collision.gameObject);
+                }
                 break;
             case "Goal":
                 endLevel = true;
@@ -237,25 +259,35 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Goal")
+        switch (other.gameObject.tag)
         {
-            endLevel = true;
-        }
-        if (other.gameObject.tag == "PlatformTrigger")
-        {
-            transform.Translate(new Vector2(rb.position.x, rb.position.y + 8.0f));
-        }
-        if (other.gameObject.tag == "TutorialTrigger")
-        {           
-            gameManagerScript.PauseGame();
-            other.gameObject.GetComponent<Tutorial>().StartDialogue();
+            case "PlatformTrigger":
+                transform.Translate(new Vector2(rb.position.x, rb.position.y + 8.0f));
+                break;
+            case "Goal":
+                endLevel = true;
+                break;
+            case "TutorialTrigger":
+                gameManagerScript.PauseGame();
+                other.gameObject.GetComponent<Tutorial>().StartDialogue();
+                break;
+            case "Enemy":
+                if (isDashing || isInvulnerable)
+                {
+                    Destroy(other.gameObject);
+                }
+                else
+                {
+                    gameOver = true;
+                }
+                break;
+            case "GoodFood":
+                PlayerMinDeform();
+                Destroy(other.gameObject);
+                playerScaled = false;
+                break;
         }
 
-        if (other.gameObject.tag == "Enemy" && isDashing)
-        {
-            Destroy(other.gameObject);
-
-        }
     }
 
 

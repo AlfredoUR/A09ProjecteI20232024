@@ -45,7 +45,9 @@ public class EnemyScript : MonoBehaviour
         {
             playerMovement.SetCanDash(true);
             spriteRenderer.color = Color.red;
+
         }
+
     }
     void OnTriggerExit2D(Collider2D other)
     {

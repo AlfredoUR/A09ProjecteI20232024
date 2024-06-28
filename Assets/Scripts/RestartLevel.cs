@@ -25,12 +25,16 @@ public class RestartLevel : MonoBehaviour
 
     public void LoadLevel1()
     {
-        SceneManager.LoadScene("GameMechanics");
+        SceneManager.LoadScene("Level1");
     }
 
     public void LoadLevel2()
     {
-
+        SceneManager.LoadScene("Level2");
+    }
+    public void LoadLevel3()
+    {
+        SceneManager.LoadScene("Level3");
     }
 
     public void ExitGame()
@@ -43,4 +47,9 @@ public class RestartLevel : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void RestartCurrentScene()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
+    }
 }
