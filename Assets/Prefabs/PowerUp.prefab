@@ -179,3 +179,6 @@ MonoBehaviour:
   invulnerabilitySprite: {fileID: 21300000, guid: 62ca617b33d9c274f987ef0c9f356c89, type: 3}
   speedBoostSprite: {fileID: 21300000, guid: 424ef19d72b6f7a41bcd4665e5c92b1e, type: 3}
   teleportSprite: {fileID: 21300000, guid: fc239d2189a642e4eae39964fb391d50, type: 3}
+  valueX: 0
+  valueY: 0
+  speedBoostMultiplier: 2

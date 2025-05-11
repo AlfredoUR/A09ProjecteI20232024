@@ -17,6 +17,7 @@ TagManager:
   - TutorialCanvas
   - Obstacle
   - PowerUp
+  - SpeedBoost
   layers:
   - Default
   - TransparentFX

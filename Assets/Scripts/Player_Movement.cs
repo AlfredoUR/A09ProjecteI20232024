@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     //Speeed +
     private bool isSpeedBoosted = false;
     private float speedBoostEndTime;
-    public float boostSpeed = 7.0f;
+    public float boostSpeed = 15.0f;
     //Teleport
     private bool canTeleport = false;
     private float teleportX;
@@ -225,6 +225,8 @@ public class PlayerMovement : MonoBehaviour
     {
         return isInvulnerable;
     }
+
+    ////////Canviar per ModifySpeed
     public void ActivateSpeedBoost(float boost, float duration)
     {
         if (transform.localScale.x != regularPlayerWidth)
@@ -291,11 +293,11 @@ public class PlayerMovement : MonoBehaviour
                 Destroy(collision.gameObject);
                 playerScaled = false;
                 break;
-            case "GoodFood":
-                PlayerMinDeform();
-                Destroy(collision.gameObject);
-                playerScaled = false;
-                break;
+            //case "GoodFood":
+            //    PlayerMinDeform();
+            //    Destroy(collision.gameObject);
+            //    playerScaled = false;
+            //    break;
         }
     }
 
@@ -333,13 +335,41 @@ public class PlayerMovement : MonoBehaviour
                     gameOver = true;
                 }
                 break;
-            case "GoodFood":
+            case "SpeedBoost":
                 PlayerMinDeform();
+                speed = Mathf.Min(maxSpeed, speed + 1);
                 Destroy(other.gameObject);
-                playerScaled = false;
+                //playerScaled = false;
                 break;
         }
 
+    }
+
+    // SpeedBoost
+    public void ModifySpeed(float speedBoostMultiplier, float speedBoostDuration)
+    {
+        if (isSpeedBoosted) return;
+
+        float newSpeed = baseSpeed + speedBoostMultiplier;
+        StartCoroutine(TemporarySpeedChange(newSpeed, speedBoostDuration));
+
+        if (Time.time < Time.time + speedBoostDuration)
+        {
+            SetColor(Color.cyan);
+        }
+        else
+        {
+            SetColor(originalColor);
+        }
+        
+    }
+
+    private IEnumerator TemporarySpeedChange(float newSpeed, float speedBoostDuration)
+    {
+        float originalSpeed = speed;
+        speed = newSpeed;
+        yield return new WaitForSeconds(speedBoostDuration);
+        speed = originalSpeed;
     }
 
 
@@ -353,6 +383,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Scaling");
             speed--;
         }
+        playerScaled = true;
     }
 
 
@@ -377,6 +408,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+ 
 
     private void gradualSlow()
     {

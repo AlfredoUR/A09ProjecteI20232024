@@ -13,7 +13,6 @@ public class TutorialTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //Pausa el joc i mostrar el tutorial
             gameManager.TriggerTutorial(tutorialStage);
         }
     }
