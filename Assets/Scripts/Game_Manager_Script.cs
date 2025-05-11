@@ -170,43 +170,43 @@ public class GameManager_Script : MonoBehaviour
         switch (stage)
         {
             case 0:
-                tutorialLines = new string[] { "Tina: Ara t'ensenyaré a moure't amb la teva nova taula. De moment ella marcarà el camí sola. (Clica a qualsevol lloc per continuar)" };
+                tutorialLines = new string[] { "Tina: Ara t'ensenyarï¿½ a moure't amb la teva nova taula. De moment ella marcarï¿½ el camï¿½ sola. (Clica a qualsevol lloc per continuar)" };
                 break;
             case 1:
-                tutorialLines = new string[] { "Evita les hamburgueses, et faran anar més lent." };
+                tutorialLines = new string[] { "Evita les hamburgueses, et faran anar mï¿½s lent." };
                 break;
             case 2:
-                tutorialLines = new string[] { "En Sergi ha preparat aquestes begudes màgiques que et poden ajudar a seguir endavant. Per exemple aquesta t'augmenta la vel·locitat." };
+                tutorialLines = new string[] { "En Sergi ha preparat aquestes begudes mï¿½giques que et poden ajudar a seguir endavant. Per exemple aquesta t'augmenta la velï¿½locitat." };
                 break;
             case 3:
                 tutorialLines = new string[] { "Un obstacle! Prem l'espai per saltar just quan el tinguis davant." };
                 break;
             case 4:
-                tutorialLines = new string[] { "Compte, un enemic! Per embestir-lo prem el shift esquerre un cop estigui en el teu rang. Ho sabràs quan canvïi de color." };
+                tutorialLines = new string[] { "Compte, un enemic! Per embestir-lo prem el shift esquerre un cop estigui en el teu rang. Ho sabrï¿½s quan canvï¿½i de color." };
                 break;
             case 5:
-                tutorialLines = new string[] { "Encara que sembli que no podràs passar per aquí no et preocupis. El poder d'aquesta llauna et farà intangible durant uns segons." };
+                tutorialLines = new string[] { "Encara que sembli que no podrï¿½s passar per aquï¿½ no et preocupis. El poder d'aquesta llauna et farï¿½ intangible durant uns segons." };
                 break;
             case 6:
-                tutorialLines = new string[] { "Forats? No passa res, ho teníem tot calculat. Amb aquesta última llauna. Apreta la tecla Z  podràs teletransportar-te a una ubicació superior i esquivar perills." };
+                tutorialLines = new string[] { "Forats? No passa res, ho tenï¿½em tot calculat. Amb aquesta ï¿½ltima llauna. Apreta la tecla Z  podrï¿½s teletransportar-te a una ubicaciï¿½ superior i esquivar perills." };
                 break;
             case 7:
-                tutorialLines = new string[] { "I fins aquí la guia, ara pots sortir a salvar la ciutat. " };
+                tutorialLines = new string[] { "I fins aquï¿½ la guia, ara pots sortir a salvar la ciutat. " };
                 break;
 
             //Nivell1
 
             case 8:
-                tutorialLines = new string[] { "Ara controla tu per on passes, per desgràcia en Walter sen's ha avançat i ha col·locat còpies de les llaunes on no t'afavoreixen." };
+                tutorialLines = new string[] { "Ara controla tu per on passes, per desgrï¿½cia en Walter sen's ha avanï¿½at i ha colï¿½locat cï¿½pies de les llaunes on no t'afavoreixen." };
                 break;
             case 9:
-                tutorialLines = new string[] { "Però recorda!\nBlanc: Velocitat extra.\nRosa: Teletransportació amb la tecla Z.\nTaronja: Invencibilitat" };
+                tutorialLines = new string[] { "Perï¿½ recorda!\nBlanc: Velocitat extra.\nRosa: Teletransportaciï¿½ amb la tecla Z.\nTaronja: Invencibilitat" };
                     break;
             case 10:
-                tutorialLines = new string[] { "Ara per desgràcia en Walter sen's ha avançat i ha col·locat còpies de les llaunes on no t'afavoreixen." };
+                tutorialLines = new string[] { "Ara per desgrï¿½cia en Walter sen's ha avanï¿½at i ha colï¿½locat cï¿½pies de les llaunes on no t'afavoreixen." };
                 break; 
             case 11:
-                tutorialLines = new string[] { "Ara  desgràcia en Walter sen's ha avançat i ha col·locat còpies de les llaunes on no t'afavoreixen." };
+                tutorialLines = new string[] { "Ara  desgrï¿½cia en Walter sen's ha avanï¿½at i ha colï¿½locat cï¿½pies de les llaunes on no t'afavoreixen." };
                 break;
             default:
                 tutorialLines = new string[] { "Default tutorial text" };
@@ -214,5 +214,10 @@ public class GameManager_Script : MonoBehaviour
         }
         PauseGame();
         tutorialScript.SetTutorialText(tutorialLines);
+    }
+
+    public void GameOver()
+    {
+
     }
 }
