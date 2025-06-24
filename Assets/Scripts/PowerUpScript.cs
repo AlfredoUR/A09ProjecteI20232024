@@ -17,8 +17,8 @@ public class PowerUp : MonoBehaviour
     public float valueX;
     public float valueY;
     //SpeedBoost
-    public float speedBoostMultiplier = 2.0f;
-    private float speedBoostDuration = 5.0f;
+    public float speedBoostMultiplier = 1.2f;
+    public float speedBoostDuration = 2.0f;
     private SpriteRenderer spriteRenderer;
 
     void Start()
@@ -65,7 +65,8 @@ public class PowerUp : MonoBehaviour
                 break;
             case PowerUpType.SpeedBoost:
                 playerMovement = playerMovement.GetComponent<PlayerMovement>();
-                playerMovement.ActivateSpeedBoost(speedBoostMultiplier, speedBoostDuration);
+                //playerMovement.ActivateSpeedBoost(speedBoostMultiplier, speedBoostDuration);
+                playerMovement.ModifySpeed(speedBoostMultiplier, speedBoostDuration);
                 break;
             case PowerUpType.Teleport:
                 playerMovement.ActivateTeleport(valueX, valueY, duration);
