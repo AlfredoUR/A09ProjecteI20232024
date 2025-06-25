@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    public enum PowerUpType { Invulnerability, SpeedBoost, Teleport }
+    public enum PowerUpType { INVULNERABILITY, SPEEDBOOST, TELEPORT }
     public PowerUpType powerUpType;
 
 
@@ -17,7 +17,7 @@ public class PowerUp : MonoBehaviour
     public float valueX;
     public float valueY;
     //SpeedBoost
-    public float speedBoostMultiplier = 1.2f;
+    public float speedBoostMultiplier = 1.3f;
     public float speedBoostDuration = 2.0f;
     private SpriteRenderer spriteRenderer;
 
@@ -31,13 +31,13 @@ public class PowerUp : MonoBehaviour
     {
         switch (powerUpType)
         {
-            case PowerUpType.Invulnerability:
+            case PowerUpType.INVULNERABILITY:
                 spriteRenderer.sprite = invulnerabilitySprite;
                 break;
-            case PowerUpType.SpeedBoost:
+            case PowerUpType.SPEEDBOOST:
                 spriteRenderer.sprite = speedBoostSprite;
                 break;
-            case PowerUpType.Teleport:
+            case PowerUpType.TELEPORT:
                 spriteRenderer.sprite = teleportSprite;
                 break;
         }
@@ -60,15 +60,15 @@ public class PowerUp : MonoBehaviour
     {
         switch (powerUpType)
         {
-            case PowerUpType.Invulnerability:
+            case PowerUpType.INVULNERABILITY:
                 playerMovement.ActivateInvulnerability(duration);
                 break;
-            case PowerUpType.SpeedBoost:
+            case PowerUpType.SPEEDBOOST:
                 playerMovement = playerMovement.GetComponent<PlayerMovement>();
                 //playerMovement.ActivateSpeedBoost(speedBoostMultiplier, speedBoostDuration);
                 playerMovement.ModifySpeed(speedBoostMultiplier, speedBoostDuration);
                 break;
-            case PowerUpType.Teleport:
+            case PowerUpType.TELEPORT:
                 playerMovement.ActivateTeleport(valueX, valueY, duration);
                 break;
         }

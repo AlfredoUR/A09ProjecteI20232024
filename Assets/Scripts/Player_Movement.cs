@@ -14,9 +14,17 @@ public class PlayerMovement : MonoBehaviour
     private float previousSpeed;
     private float cameraSpeed;
     public float maxSpeed = 7.0f;
-    float jumpForce = 1000f;
-    float gravity = 0.9f;
-    bool slowing;
+
+    //Jump
+    public float jumpForce = 12f;
+    public float fallMultiplier = 2.5f; 
+    public float lowJumpMultiplier = 2f; 
+    public float coyoteTime = 0.2f;
+    public float jumpBufferTime = 0.2f; 
+
+    private float coyoteTimeCounter;
+    private float jumpBufferCounter;
+    private bool isJumping;
     //Dashing
     private bool isDashing = false;
     private float dashTime;
@@ -32,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isSpeedBoosted = false;
     private float speedBoostEndTime;
     public float boostSpeed = 15.0f;
+    private float speedBeforeBoost;
     //Teleport
     private bool canTeleport = false;
     private float teleportX;
@@ -74,15 +83,18 @@ public class PlayerMovement : MonoBehaviour
         levelIndex = gameManager.GetComponent<SceneChanger>().GetLevelIndex();
         speed = baseSpeed;
         previousSpeed = speed;
+
+
+        rb = GetComponent<Rigidbody2D>();
         gravityScale = rb.gravityScale;
+        if (gravityScale == 0) gravityScale = 1f;
+
         isGrounded = false;
         endLevel = false;
-        slowing = false;
+        isJumping = false;
         gamePaused = gameManager.GetComponent<GameManager_Script>().isPaused;
-        //cameraSpeed = cameraTransform.GetComponent<CameraScript>().cameraSpeed;  
 
         ground = GameObject.FindWithTag("Ground");
-        rb = GetComponent<Rigidbody2D>();
         isDashing = false;
 
         platform = GameObject.FindWithTag("Platform");
@@ -117,7 +129,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!endLevel)
             {
-                rb.velocity = new Vector2(speed, rb.velocity.y);
             }
             else
             {
@@ -134,11 +145,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isGrounded && Input.GetKeyDown(KeyCode.Space))
             {
-                rb.AddForce(new Vector2(0, jumpForce * speed * gravity));
-            }
-            else
-            {
-                rb.velocity = new Vector2(speed, rb.velocity.y * gravity);
+                rb.AddForce(new Vector2(0, jumpForce * speed));
             }
 
             if (isGrounded)
@@ -155,7 +162,6 @@ public class PlayerMovement : MonoBehaviour
                     {
                         EndDash();
                     }
-
                 }
             }
 
@@ -167,9 +173,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (isSpeedBoosted && Time.time >= speedBoostEndTime)
             {
-                isSpeedBoosted = false;
-                speed = baseSpeed;
-                SetColor(originalColor);
+                EndSpeedBoost();
             }
 
             if (canTeleport && Time.time >= teleportEndTime)
@@ -187,11 +191,94 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (!isDashing)
+        if (!gameOver && !gamePaused && !endLevel)
         {
-            rb.velocity = new Vector2(speed, rb.velocity.y);
+            if (!isDashing)
+            {
+                rb.velocity = new Vector2(speed, rb.velocity.y);
+            }
+
+            ApplyBetterGravity();
         }
     }
+    void HandleJump()
+    {
+        // Coyote Time
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
+        {
+            Jump();
+            jumpBufferCounter = 0f;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            coyoteTimeCounter = 0f;
+        }
+    }
+
+    void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        isJumping = true;
+        coyoteTimeCounter = 0f;
+    }
+
+    void ApplyBetterGravity()
+    {
+        if (rb.velocity.y < 0)
+        {
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+        }
+        else if (rb.velocity.y > 0 && !Input.GetKey(KeyCode.Space))
+        {
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
+        }
+    }
+
+    void HandlePowerUps()
+    {
+        if (isInvulnerable && Time.time >= invulnerabilityEndTime)
+        {
+            isInvulnerable = false;
+            SetColor(originalColor);
+        }
+
+        if (isSpeedBoosted && Time.time >= speedBoostEndTime)
+        {
+            EndSpeedBoost();
+        }
+
+        if (canTeleport && Time.time >= teleportEndTime)
+        {
+            canTeleport = false;
+            SetColor(originalColor);
+        }
+
+        if (canTeleport && Input.GetKeyDown(KeyCode.Z))
+        {
+            Teleport();
+        }
+    }
+
 
     private void StartDash()
     {
@@ -232,10 +319,8 @@ public class PlayerMovement : MonoBehaviour
         if (transform.localScale.x != regularPlayerWidth)
         {
             scaleX.x = regularPlayerWidth;
-            //transform.localScale = scaleX;
         }
         boostSpeed = boost;
-        //duration = 2.0f;
         isSpeedBoosted = true;
         speed = boostSpeed;
         speedBoostEndTime = Time.time + duration;
@@ -266,7 +351,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+   private void OnCollisionEnter2D(Collision2D collision)
     {
         switch (collision.gameObject.tag)
         {
@@ -287,17 +372,13 @@ public class PlayerMovement : MonoBehaviour
             case "Ground":
             case "Platform":
                 isGrounded = true;
+                isJumping = false;
                 break;
             case "JunkFood":
                 PlayerMaxDeform();
                 Destroy(collision.gameObject);
                 playerScaled = false;
                 break;
-            //case "GoodFood":
-            //    PlayerMinDeform();
-            //    Destroy(collision.gameObject);
-            //    playerScaled = false;
-            //    break;
         }
     }
 
@@ -337,7 +418,8 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "SpeedBoost":
                 PlayerMinDeform();
-                speed = Mathf.Min(maxSpeed, speed + 1);
+                float speedBoostDuration = 3.0f;
+                ModifySpeed(1.6f, speedBoostDuration);
                 Destroy(other.gameObject);
                 //playerScaled = false;
                 break;
@@ -346,31 +428,49 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // SpeedBoost
-    public void ModifySpeed(float speedBoostMultiplier, float speedBoostDuration)
+    public void ModifySpeed(float speedBoostAmount, float speedBoostDuration)
     {
         if (isSpeedBoosted) return;
+        speedBeforeBoost = speed;
 
-        float newSpeed = baseSpeed + speedBoostMultiplier;
-        StartCoroutine(TemporarySpeedChange(newSpeed, speedBoostDuration));
+        float newSpeed = speed + speedBoostAmount;
+        speed = Mathf.Min(maxSpeed, newSpeed);
 
-        if (Time.time < Time.time + speedBoostDuration)
-        {
-            SetColor(Color.cyan);
-        }
-        else
-        {
-            SetColor(originalColor);
-        }
-        
+        isSpeedBoosted = true;
+        speedBoostEndTime = Time.time + speedBoostDuration;
+
+        Debug.Log($"Speed: {speedBeforeBoost}, to {speed}. Duration: {speedBoostDuration}s");
+        SetColor(Color.cyan);
+
+        //StartCoroutine(TemporarySpeedChange(newSpeed, speedBoostDuration));
+
+        //if (Time.time < Time.time + speedBoostDuration)
+        //{
+        //    SetColor(Color.cyan);
+        //}
+        //else
+        //{
+        //    SetColor(originalColor);
+        //}
+
     }
 
-    private IEnumerator TemporarySpeedChange(float newSpeed, float speedBoostDuration)
+    private void EndSpeedBoost()
     {
-        float originalSpeed = speed;
-        speed = newSpeed;
-        yield return new WaitForSeconds(speedBoostDuration);
-        speed = originalSpeed;
+        isSpeedBoosted = false;
+        speed = speedBeforeBoost > 0 ? speedBeforeBoost : baseSpeed;
+        SetColor(originalColor);
+
+        Debug.Log($"Speed boost ended, current speed: {speed}");
     }
+
+    //private IEnumerator TemporarySpeedChange(float newSpeed, float speedBoostDuration)
+    //{
+    //    float originalSpeed = speed;
+    //    speed = newSpeed;
+    //    yield return new WaitForSeconds(speedBoostDuration);
+    //    speed = originalSpeed;
+    //}
 
 
     private void PlayerMaxDeform()
@@ -380,8 +480,8 @@ public class PlayerMovement : MonoBehaviour
             scaleX = transform.localScale;
             scaleX.x += 0.5f;
             transform.localScale = scaleX;
-            Debug.Log("Scaling");
-            speed--;
+            Debug.Log("Scaling to MAX");
+            speed = Mathf.Max(1.0f, speed - 1);
         }
         playerScaled = true;
     }
@@ -389,7 +489,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerMinDeform()
     {
-        gradualSlow();
         if (!playerScaled && transform.localScale.x < maxPlayerWidth)
         {
             scaleX = transform.localScale;
@@ -397,32 +496,18 @@ public class PlayerMovement : MonoBehaviour
             {
                 scaleX.x = regularPlayerWidth;
                 transform.localScale = scaleX;
-                Debug.Log("Scaling");
+                Debug.Log("Scaling back to normal");
                 playerScaled = true;
             }
 
-            if (speed <= maxSpeed)
+            if (speed < maxSpeed)
             {
-                speed++;
-                slowing = true;
+                speed = Mathf.Min(maxSpeed, speed + 1);
             }
         }
     }
 
- 
 
-    private void gradualSlow()
-    {
-        while (slowing)
-        {
-            Debug.Log("Gradually slowing speed ");
-            Debug.Log("Speed is : " + speed);
-            if (speed == baseSpeed)
-            {
-                slowing = false;
-            }
-        }
-    }
 
     private void GameOver()
     {
