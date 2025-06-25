@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using TMPro;
 
@@ -14,7 +14,7 @@ public class Tutorial : MonoBehaviour
 
     void Start()
     {
-        // AUTOCONFIGURACI� DE DEPEND�NCIES
+        // AUTOCONFIGURACIÓ DE DEPENDÈNCIES
         if (tutorialText == null)
         {
             tutorialText = FindObjectOfType<TextMeshProUGUI>();
@@ -42,8 +42,14 @@ public class Tutorial : MonoBehaviour
 
     void Update()
     {
+        if (gameManager.levelIndex != 0)
+        {
+            if (!tutorialCanvas.gameObject.activeSelf) return;
+        }
         if (lines == null || lines.Length == 0 || tutorialText == null) return;
+
         if (textSpeed <= 0f) textSpeed = 0.03f;
+
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -67,16 +73,33 @@ public class Tutorial : MonoBehaviour
 
     public void StartDialogue()
     {
+        Debug.Log("🟡 StartDialogue called");
+
         if (lines == null || lines.Length == 0 || tutorialText == null || tutorialCanvas == null)
         {
-            Debug.LogError("Tutorial: Error a StartDialogue(). Falten refer�ncies.");
+            Debug.LogError("🔴 Error a StartDialogue(). Falten referències.");
             return;
         }
 
         index = 0;
-        tutorialText.text = string.Empty;
+        tutorialText.text = "▶️ " + lines[index]; // mostra directament el text
         tutorialCanvas.gameObject.SetActive(true);
-        StartCoroutine(TypeLine());
+
+        //if (lines == null || lines.Length == 0 || tutorialText == null || tutorialCanvas == null)
+        //{
+        //    Debug.LogError("Tutorial: Error a StartDialogue(). Falten referències.");
+        //    return;
+        //}
+        //index = 0;
+        //tutorialText.text = "";
+        //tutorialCanvas.gameObject.SetActive(true);
+        //StartCoroutine(DelayedType());
+    }
+
+    IEnumerator DelayedType()
+    {
+        yield return null;
+        yield return StartCoroutine(TypeLine());
     }
 
     IEnumerator TypeLine()

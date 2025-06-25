@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -10,7 +11,7 @@ public class GameManager_Script : MonoBehaviour
     public Text scoreText;
     public Tutorial tutorialScript;
     public int score;
-    int levelIndex;
+    public int levelIndex;
     bool isTutorial;
     public int tutorialIndex;
     public GameObject pausePanel;
@@ -23,9 +24,9 @@ public class GameManager_Script : MonoBehaviour
     private bool isTutorial2;
     private bool isTutorial4;
 
+
     void Start()
     {
-        score = 0;
         score = 0;
         if (scoreText != null) {
             scoreText.text = "Score: " + score;
@@ -44,13 +45,15 @@ public class GameManager_Script : MonoBehaviour
             Debug.LogError("GameManager: SceneChanger no trobat!");
         }
 
-        if (tutorialScript == null)
-        {
-            tutorialScript = FindObjectOfType<Tutorial>();
-            if (tutorialScript == null)
-                Debug.LogError("GameManager: No s'ha trobat cap Tutorial a l’escena.");
-        }
 
+        if (tutorialScript == null || tutorialScript.tutorialCanvas == null || tutorialScript.tutorialText == null)
+        {
+            tutorialScript = FindObjectsOfType<Tutorial>()
+                .FirstOrDefault(t => t.tutorialText != null && t.tutorialCanvas != null && t.lines != null && t.lines.Length > 0);
+
+            if (tutorialScript == null)
+                Debug.LogError("No s'ha pogut trobar un Tutorial vàlid.");
+        }
         if (pausePanel != null)
             pausePanel.SetActive(false);
         else
@@ -81,44 +84,6 @@ public class GameManager_Script : MonoBehaviour
             //TogglePauseGame();
         }
 
-
-        //if (pauseTime)
-        //{
-        //    PauseGame();
-        //}
-        //switch (levelIndex)
-        //{
-        //    case 0:
-        //        isTutorial = true;
-        //        break;
-        //    case 1:
-        //        isTutorial = false;
-        //        break;
-        //}
-
-        //if (isTutorial)
-        //{
-        //    switch (tutorialIndex)
-        //    {
-        //        case 0:
-        //            isTutorial1 = true;
-        //            break;
-        //        case 1:
-        //            isTutorial1 = false;
-        //            isTutorial2 = true;
-        //            break;
-        //        case 2:
-        //            isTutorial2 = false;
-        //            isTutorial4 = true;
-        //            break;
-        //        case 3:
-        //            isTutorial4 = false;
-        //            isTutorial4 = true;
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
     }
     public void TogglePauseGame()
     {

@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             tutorialScript = gameManagerScript.GetComponent<Tutorial>();
-            if (tutorialScript == null&& levelIndex >0)
+            if (tutorialScript == null)
             {
                 Debug.LogError("Tutorial script not found on GameManager");
             }
