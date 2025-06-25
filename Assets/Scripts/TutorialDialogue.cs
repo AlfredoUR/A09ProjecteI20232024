@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor;
 
 public class Tutorial : MonoBehaviour
 {
@@ -45,6 +43,7 @@ public class Tutorial : MonoBehaviour
     void Update()
     {
         if (lines == null || lines.Length == 0 || tutorialText == null) return;
+        if (textSpeed <= 0f) textSpeed = 0.03f;
 
         if (Input.GetMouseButtonDown(0))
         {
