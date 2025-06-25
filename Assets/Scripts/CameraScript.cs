@@ -9,7 +9,7 @@ public class CameraScript : MonoBehaviour
 {
     public UnityEngine.Transform Player;
 
-    public float smoothTime = 0.3f;
+    public float smoothTime;
     public Vector3 offset = new Vector3(0, 2, -10);
 
     public float minY = -5f;
