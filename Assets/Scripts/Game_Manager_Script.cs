@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class GameManager_Script : MonoBehaviour
 {
-    //public static GameManager_Script Instance;
 
     public Text scoreText;
     public Tutorial tutorialScript;
@@ -27,33 +26,47 @@ public class GameManager_Script : MonoBehaviour
     void Start()
     {
         score = 0;
-        scoreText.text = ("Score: " + score.ToString());
-        levelIndex = GetComponent<SceneChanger>().GetLevelIndex();
-        isPaused = false;
+        score = 0;
+        if (scoreText != null) {
+            scoreText.text = "Score: " + score;
+        }
+        else
+        {
+            Debug.LogWarning("GameManager: where is scoreText.");
+        }
+        SceneChanger sceneChanger = GetComponent<SceneChanger>();
+        if (sceneChanger != null)
+        {
+            levelIndex = sceneChanger.GetLevelIndex();
+        }
+        else
+        {
+            Debug.LogError("GameManager: SceneChanger no trobat!");
+        }
 
         if (tutorialScript == null)
         {
             tutorialScript = FindObjectOfType<Tutorial>();
             if (tutorialScript == null)
-            {
-                Debug.LogError("Tutorial script not found in the scene!");
-            }
+                Debug.LogError("GameManager: No s'ha trobat cap Tutorial a l’escena.");
         }
+
         if (pausePanel != null)
-        {
             pausePanel.SetActive(false);
-        }
+        else
+            Debug.LogWarning("GameManager: pausePanel not assigned.");
 
         if (gameOverPanel != null)
-        {
             gameOverPanel.SetActive(false);
-        }
+        else
+            Debug.LogWarning("GameManager: gameOverPanel not assigned.");
 
         if (gameUIPanel != null)
-        {
-            gameUIPanel.SetActive(true); 
-        }
+            gameUIPanel.SetActive(true);
+        else
+            Debug.LogWarning("GameManager: gameUIPanel not assigned.");
 
+        isPaused = false;
     }
 
     void Update()

@@ -1,0 +1,208 @@
+GameObject: Decoration (active: True)
+  - Transform
+  - Tilemap
+  - TilemapRenderer
+  - Shadow
+
+GameObject: Platforms (active: True)
+  - Transform
+  - Tilemap
+  - TilemapRenderer
+  - TilemapCollider2D
+  - Rigidbody2D
+  - CompositeCollider2D
+
+GameObject: sky (active: True)
+  - Transform
+  - Tilemap
+  - TilemapRenderer
+
+GameObject: Ground (active: True)
+  - Transform
+  - Tilemap
+  - TilemapRenderer
+  - TilemapCollider2D
+  - Rigidbody2D
+  - CompositeCollider2D
+
+GameObject: Enemies (active: True)
+  - Transform
+  - Tilemap
+  - TilemapRenderer
+  - TilemapCollider2D
+  - Rigidbody2D
+
+GameObject: LevelGrid (active: True)
+  - Transform
+  - Grid
+  - Tilemap
+
+GameObject: Tutorial4 (active: True)
+  - Transform
+  - BoxCollider2D
+  - TutorialTrigger
+
+GameObject: Obstacle (active: True)
+  - Transform
+  - SpriteRenderer
+  - BoxCollider2D
+  - Rigidbody2D
+
+GameObject: Tutorial5 (active: True)
+  - Transform
+  - BoxCollider2D
+  - TutorialTrigger
+
+GameObject: Enemy (active: True)
+  - Transform
+  - SpriteRenderer
+  - BoxCollider2D
+  - Rigidbody2D
+  - EnemyScript
+
+GameObject: Goal (active: True)
+  - Transform
+  - SpriteRenderer
+  - CapsuleCollider2D
+
+GameObject: Obstacle3 (active: True)
+  - Transform
+  - SpriteRenderer
+  - BoxCollider2D
+  - Rigidbody2D
+
+GameObject: TeleportPowerup (active: True)
+  - Transform
+  - SpriteRenderer
+  - Rigidbody2D
+  - CircleCollider2D
+  - Halo
+  - PowerUp
+
+GameObject: Tutorial0 (active: True)
+  - Transform
+  - BoxCollider2D
+  - TutorialTrigger
+
+GameObject: Tutorial3 (active: True)
+  - Transform
+  - BoxCollider2D
+  - TutorialTrigger
+
+GameObject: TutorialText (active: True)
+  - RectTransform
+  - CanvasRenderer
+  - TextMeshProUGUI
+
+GameObject: TutorialDialogueBox (active: True)
+  - RectTransform
+  - CanvasRenderer
+  - Image
+  - Tutorial
+
+GameObject: TutorialCanvas (active: True)
+  - RectTransform
+  - Canvas
+  - CanvasScaler
+  - GraphicRaycaster
+  - Tutorial
+
+GameObject: Tutorial2 (active: True)
+  - Transform
+  - BoxCollider2D
+  - TutorialTrigger
+
+GameObject: SceneReloader (active: True)
+  - Transform
+  - RestartLevel
+
+GameObject: Tutorial1 (active: True)
+  - Transform
+  - BoxCollider2D
+  - TutorialTrigger
+
+GameObject: 0bstacles (1) (active: True)
+  - Transform
+  - Tilemap
+  - TilemapRenderer
+  - TilemapCollider2D
+  - Rigidbody2D
+  - CompositeCollider2D
+
+GameObject: JunkFood (active: True)
+  - Transform
+  - SpriteRenderer
+  - Rigidbody2D
+  - CircleCollider2D
+  - Halo
+  - Light
+  - UniversalAdditionalLightData
+
+GameObject: InvulnerabilityPowerUp (active: True)
+  - Transform
+  - SpriteRenderer
+  - Rigidbody2D
+  - CircleCollider2D
+  - Halo
+  - PowerUp
+
+GameObject: ScoreText (active: True)
+  - RectTransform
+  - CanvasRenderer
+  - Text
+
+GameObject: ScoreCanvas (active: True)
+  - RectTransform
+  - Canvas
+  - CanvasScaler
+  - GraphicRaycaster
+  - Tilemap
+
+GameObject: Player (active: True)
+  - Transform
+  - SpriteRenderer
+  - BoxCollider2D
+  - Rigidbody2D
+  - PlayerMovement
+
+GameObject: SpeedPowerup (active: True)
+  - Transform
+  - SpriteRenderer
+  - Rigidbody2D
+  - CircleCollider2D
+  - Halo
+  - PowerUp
+
+GameObject: Tutorial6 (active: True)
+  - Transform
+  - BoxCollider2D
+  - TutorialTrigger
+
+GameObject: Tutorial7 (active: True)
+  - Transform
+  - BoxCollider2D
+  - TutorialTrigger
+
+GameObject: Main Camera (active: True)
+  - Transform
+  - Camera
+  - AudioListener
+  - UniversalAdditionalCameraData
+  - CameraScript
+  - Rigidbody2D
+
+GameObject: EventSystem (active: True)
+  - Transform
+  - EventSystem
+  - StandaloneInputModule
+
+GameObject: Global Light 2D (active: True)
+  - Transform
+  - Light2D
+
+GameObject: GameManager (active: True)
+  - Transform
+  - GameManager_Script
+  - SceneChanger
+  - Tutorial
+

@@ -78,8 +78,21 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        gameManager = GameObject.FindWithTag("Game_Manager");
-        gameManagerScript = FindObjectOfType<GameManager_Script>();
+        if (gameManager == null)
+        {
+            gameManager = GameObject.FindWithTag("Game_Manager");
+        }
+
+        if (gameManagerScript == null && gameManager != null)
+        {
+            gameManagerScript = gameManager.GetComponent<GameManager_Script>();
+        }
+
+        if (cameraTransform == null) { 
+            cameraTransform = Camera.main != null ? Camera.main.transform : null;
+        }
+
+        //gameManagerScript = FindObjectOfType<GameManager_Script>();
         levelIndex = gameManager.GetComponent<SceneChanger>().GetLevelIndex();
         speed = baseSpeed;
         previousSpeed = speed;
@@ -114,11 +127,12 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             tutorialScript = gameManagerScript.GetComponent<Tutorial>();
-            if (tutorialScript == null)
+            if (tutorialScript == null&& levelIndex >0)
             {
                 Debug.LogError("Tutorial script not found on GameManager");
             }
         }
+        levelIndex = gameManagerScript != null ? gameManagerScript.GetComponent<SceneChanger>()?.GetLevelIndex() ?? -1 : -1;
     }
     void Update()
     {
@@ -366,9 +380,9 @@ public class PlayerMovement : MonoBehaviour
                     Destroy(collision.gameObject);
                 }
                 break;
-            case "Goal":
-                endLevel = true;
-                break;
+            //case "Goal":
+            //    endLevel = true;
+            //    break;
             case "Ground":
             case "Platform":
                 isGrounded = true;
@@ -403,7 +417,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "TutorialTrigger":
                 gameManagerScript.PauseGame();
-                other.gameObject.GetComponent<Tutorial>().StartDialogue();
+                //other.gameObject.GetComponent<Tutorial>().StartDialogue();
                 break;
             case "Enemy":
             case "Obstacle":
