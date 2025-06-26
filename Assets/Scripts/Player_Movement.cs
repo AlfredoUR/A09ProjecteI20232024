@@ -245,6 +245,23 @@ public class PlayerMovement : MonoBehaviour
         canDash = anyEnemyDetecting;
     }
 
+    void CheckEnemyDetection()
+    {
+        EnemyScript[] enemies = FindObjectsOfType<EnemyScript>();
+        bool anyEnemyDetecting = false;
+
+        foreach (EnemyScript enemy in enemies)
+        {
+            if (enemy.IsDetectingPlayer())
+            {
+                anyEnemyDetecting = true;
+                break;
+            }
+        }
+
+        canDash = anyEnemyDetecting;
+    }
+
     void Jump()
     {
         
