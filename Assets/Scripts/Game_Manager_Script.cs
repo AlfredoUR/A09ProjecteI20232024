@@ -1,7 +1,5 @@
-using System.Linq;
-using System.Numerics;
+
 using UnityEngine;
-using UnityEngine.Profiling;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -11,7 +9,7 @@ public class GameManager_Script : MonoBehaviour
     public Text scoreText;
     public Tutorial tutorialScript;
     public int score;
-    public int levelIndex;
+    int levelIndex;
     bool isTutorial;
     public int tutorialIndex;
     public GameObject pausePanel;
@@ -23,12 +21,14 @@ public class GameManager_Script : MonoBehaviour
     private bool isTutorial1;
     private bool isTutorial2;
     private bool isTutorial4;
+    public static string lastSceneBeforeGameOver;
 
 
     void Start()
     {
         score = 0;
-        if (scoreText != null) {
+        if (scoreText != null)
+        {
             scoreText.text = "Score: " + score;
         }
         else
@@ -45,15 +45,15 @@ public class GameManager_Script : MonoBehaviour
             Debug.LogError("GameManager: SceneChanger no trobat!");
         }
 
-
-        if (tutorialScript == null || tutorialScript.tutorialCanvas == null || tutorialScript.tutorialText == null)
+        if (tutorialScript == null)
         {
-            tutorialScript = FindObjectsOfType<Tutorial>()
-                .FirstOrDefault(t => t.tutorialText != null && t.tutorialCanvas != null && t.lines != null && t.lines.Length > 0);
-
+            tutorialScript = FindObjectOfType<Tutorial>();
             if (tutorialScript == null)
-                Debug.LogError("No s'ha pogut trobar un Tutorial vàlid.");
+            {
+                Debug.LogError("GameManager: No s'ha trobat cap Tutorial a l’escena.");
+            }
         }
+
         if (pausePanel != null)
             pausePanel.SetActive(false);
         else
@@ -74,7 +74,7 @@ public class GameManager_Script : MonoBehaviour
 
     void Update()
     {
-        if ( !isPaused)
+        if (!isPaused)
         {
             addScore();
         }
@@ -84,6 +84,7 @@ public class GameManager_Script : MonoBehaviour
             //TogglePauseGame();
         }
 
+
     }
     public void TogglePauseGame()
     {
@@ -91,12 +92,12 @@ public class GameManager_Script : MonoBehaviour
 
         if (isPaused)
         {
-            Time.timeScale = 0; 
-            ShowPauseOptions(true); 
+            Time.timeScale = 0;
+            ShowPauseOptions(true);
         }
         else
         {
-            Time.timeScale = 1.0f; 
+            Time.timeScale = 1.0f;
             ShowPauseOptions(false);
         }
     }
@@ -117,12 +118,12 @@ public class GameManager_Script : MonoBehaviour
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1.0f; 
+        Time.timeScale = 1.0f;
     }
     public void addScore()
     {
         score++;
-        scoreText.text = ("Score: " + score.ToString());    
+        scoreText.text = ("Score: " + score.ToString());
     }
     public void ExitGame()
     {
@@ -179,10 +180,10 @@ public class GameManager_Script : MonoBehaviour
                 break;
             case 9:
                 tutorialLines = new string[] { "Però recorda!\nBlanc: Velocitat extra.\nRosa: Teletransportació amb la tecla Z.\nTaronja: Invencibilitat" };
-                    break;
+                break;
             case 10:
                 tutorialLines = new string[] { "Ara controla tu per on passes, per desgràcia en Walter sen's ha avançat i ha col·locat còpies de les llaunes on no t'afavoreixen." };
-                break; 
+                break;
             case 11:
                 tutorialLines = new string[] { "Ara controla tu per on passes, per desgràcia en Walter sen's ha avançat i ha col·locat còpies de les llaunes on no t'afavoreixen." };
                 break;
@@ -194,3 +195,4 @@ public class GameManager_Script : MonoBehaviour
         tutorialScript.SetTutorialText(tutorialLines);
     }
 }
+

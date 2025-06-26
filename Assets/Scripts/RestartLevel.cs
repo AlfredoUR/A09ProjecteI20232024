@@ -54,11 +54,23 @@ public class RestartLevel : MonoBehaviour
         if (currentSceneName == "GameOverScene")
         {
             string lastScene = PlayerPrefs.GetString("LastScene", "Tutorial");
-            SceneManager.LoadScene(lastScene);
+
+            if (Application.CanStreamedLevelBeLoaded(lastScene))
+            {
+                SceneManager.LoadScene(lastScene);
+            }
+            else
+            {
+                Debug.LogWarning("No valid scene loading Tutorial.");
+                SceneManager.LoadScene("Tutorial");
+            }
         }
         else
         {
             SceneManager.LoadScene(currentSceneName);
         }
+
+        Time.timeScale = 1.0f; // important si estava pausat
     }
+
 }

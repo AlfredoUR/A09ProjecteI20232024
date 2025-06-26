@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor;
 
 public class Tutorial : MonoBehaviour
 {
@@ -42,14 +44,7 @@ public class Tutorial : MonoBehaviour
 
     void Update()
     {
-        if (gameManager.levelIndex != 0)
-        {
-            if (!tutorialCanvas.gameObject.activeSelf) return;
-        }
         if (lines == null || lines.Length == 0 || tutorialText == null) return;
-
-        if (textSpeed <= 0f) textSpeed = 0.03f;
-
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -73,33 +68,16 @@ public class Tutorial : MonoBehaviour
 
     public void StartDialogue()
     {
-        Debug.Log("🟡 StartDialogue called");
-
         if (lines == null || lines.Length == 0 || tutorialText == null || tutorialCanvas == null)
         {
-            Debug.LogError("🔴 Error a StartDialogue(). Falten referències.");
+            Debug.LogError("Tutorial: Error a StartDialogue(). Falten referències.");
             return;
         }
 
         index = 0;
-        tutorialText.text = "▶️ " + lines[index]; // mostra directament el text
+        tutorialText.text = string.Empty;
         tutorialCanvas.gameObject.SetActive(true);
-
-        //if (lines == null || lines.Length == 0 || tutorialText == null || tutorialCanvas == null)
-        //{
-        //    Debug.LogError("Tutorial: Error a StartDialogue(). Falten referències.");
-        //    return;
-        //}
-        //index = 0;
-        //tutorialText.text = "";
-        //tutorialCanvas.gameObject.SetActive(true);
-        //StartCoroutine(DelayedType());
-    }
-
-    IEnumerator DelayedType()
-    {
-        yield return null;
-        yield return StartCoroutine(TypeLine());
+        StartCoroutine(TypeLine());
     }
 
     IEnumerator TypeLine()

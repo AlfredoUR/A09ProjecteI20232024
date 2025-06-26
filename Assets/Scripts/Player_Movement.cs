@@ -251,9 +251,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        isJumping = true;
-        coyoteTimeCounter = 0f;
+        if (isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            isJumping = true;
+            coyoteTimeCounter = 0f;
+        }
+
     }
 
     void ApplyBetterGravity()
