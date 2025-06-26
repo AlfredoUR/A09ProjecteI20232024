@@ -525,6 +525,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void GameOver()
     {
+        PlayerPrefs.SetString("LastScene", SceneManager.GetActiveScene().name);
         SceneManager.LoadScene("GameOverScene");
     }
 

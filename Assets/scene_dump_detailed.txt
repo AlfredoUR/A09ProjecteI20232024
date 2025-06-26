@@ -1,4 +1,21 @@
-GameObject: PowerUp (9) (active: True)
+GameObject: PowerUp (1) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: SPEEDBOOST
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 0
+      valueY: 0
+      speedBoostMultiplier: 8
+      speedBoostDuration: 2
+
+GameObject: PowerUp (8) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
   - Component: Rigidbody2D
@@ -14,6 +31,502 @@ GameObject: PowerUp (9) (active: True)
       valueY: 2,2
       speedBoostMultiplier: 0
       speedBoostDuration: 2
+
+GameObject: Walking enemy  (4) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: WalkingEnemy
+      moveDistance: 5
+      moveSpeed: 2
+      groundLayer: UnityEngine.LayerMask
+      groundCheck: Platforms (UnityEngine.Transform)
+
+GameObject: Flying enemy (3) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: FlyingEnemy
+      moveDistance: 5
+      moveSpeed: 2
+      moveHorizontally: True
+
+GameObject: PowerUp  (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 0
+      valueY: 5
+      speedBoostMultiplier: 2
+      speedBoostDuration: 2
+
+GameObject: Main Camera (active: True)
+  - Component: Transform
+  - Component: Camera
+  - Component: AudioListener
+  - Component: UniversalAdditionalCameraData
+      m_RenderShadows: True
+      m_RequiresDepthTextureOption: UsePipelineSettings
+      m_RequiresOpaqueTextureOption: UsePipelineSettings
+      m_CameraType: Base
+      m_Cameras: System.Collections.Generic.List`1[UnityEngine.Camera]
+      m_RendererIndex: -1
+      m_VolumeLayerMask: UnityEngine.LayerMask
+      m_VolumeTrigger: null
+      m_VolumeFrameworkUpdateModeOption: UsePipelineSettings
+      m_RenderPostProcessing: False
+      m_Antialiasing: None
+      m_AntialiasingQuality: High
+      m_StopNaN: False
+      m_Dithering: False
+      m_ClearDepth: True
+      m_AllowXRRendering: True
+      m_AllowHDROutput: True
+      m_UseScreenCoordOverride: False
+      m_ScreenSizeOverride: (0.00, 0.00, 0.00, 0.00)
+      m_ScreenCoordScaleBias: (0.00, 0.00, 0.00, 0.00)
+      m_RequiresDepthTexture: False
+      m_RequiresColorTexture: False
+      m_Version: 2
+      m_TaaSettings: UnityEngine.Rendering.Universal.TemporalAA+Settings
+  - Component: CameraScript
+      Player: Player (UnityEngine.Transform)
+      smoothTime: 0,3
+      offset: (8.00, 2.00, -10.00)
+      minY: -5
+      maxY: 20
+      followYAxis: True
+      deadZoneY: 2
+
+GameObject: Player (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: PlayerMovement
+      speed: 4
+      maxSpeed: 6
+      jumpForce: 70
+      fallMultiplier: 8
+      lowJumpMultiplier: 2
+      coyoteTime: 0,2
+      jumpBufferTime: 0,2
+      dashSpeed: 20
+      dashDuration: 0,9
+      dashDistance: 20
+      boostSpeed: 15
+      rb: Player (UnityEngine.Rigidbody2D)
+      ground: null
+      player: null
+      platform: null
+      platformTrigger: null
+      currentPlatform: null
+      gameManager: GameManager (UnityEngine.GameObject)
+      gameManagerScript: GameManager (GameManager_Script)
+      cameraTransform: Main Camera (UnityEngine.Transform)
+      levelIndex: 0
+      isTutorial: False
+      isGrounded: False
+      endLevel: False
+      gameOver: False
+      posX: 0
+      posY: 0
+      playerScaled: False
+
+GameObject: Walking enemy  (1) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: WalkingEnemy
+      moveDistance: 5
+      moveSpeed: 2
+      groundLayer: UnityEngine.LayerMask
+      groundCheck: Platforms (UnityEngine.Transform)
+
+GameObject: Flying enemy (2) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: FlyingEnemy
+      moveDistance: 5
+      moveSpeed: 2
+      moveHorizontally: True
+
+GameObject: Flying enemy (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: FlyingEnemy
+      moveDistance: 2
+      moveSpeed: 0,5
+      moveHorizontally: False
+
+GameObject: SceneReloader (active: True)
+  - Component: Transform
+  - Component: RestartLevel
+
+GameObject: InvisibleObstacle (3) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+
+GameObject: Dialogue_Trigger (active: True)
+  - Component: Transform
+  - Component: BoxCollider2D
+  - Component: TutorialTrigger
+      tutorialStage: 8
+      gameManager: GameManager (GameManager_Script)
+
+GameObject: ExitGame (active: True)
+  - Component: RectTransform
+  - Component: CanvasRenderer
+  - Component: TextMeshProUGUI
+      m_hasFontAssetChanged: False
+      m_baseMaterial: null
+      m_maskOffset: (0.00, 0.00, 0.00, 0.00)
+      m_text: Exit
+
+      m_TextPreprocessor: null
+      m_isRightToLeft: False
+      m_fontAsset: LiberationSans SDF (TMPro.TMP_FontAsset)
+      m_sharedMaterial: LiberationSans SDF Material (UnityEngine.Material)
+      m_fontSharedMaterials: UnityEngine.Material[]
+      m_fontMaterial: null
+      m_fontMaterials: UnityEngine.Material[]
+      m_fontColor32: RGBA(0, 0, 0, 255)
+      m_fontColor: RGBA(0.000, 0.000, 0.000, 1.000)
+      m_enableVertexGradient: False
+      m_colorMode: FourCornersGradient
+      m_fontColorGradient: TMPro.VertexGradient
+      m_fontColorGradientPreset: null
+      m_spriteAsset: null
+      m_tintAllSprites: False
+      m_StyleSheet: null
+      m_TextStyleHashCode: -1183493901
+      m_overrideHtmlColors: False
+      m_faceColor: RGBA(255, 255, 255, 255)
+      m_fontSize: 65
+      m_fontSizeBase: 65
+      m_fontWeight: Regular
+      m_enableAutoSizing: False
+      m_fontSizeMin: 18
+      m_fontSizeMax: 72
+      m_fontStyle: Bold
+      m_HorizontalAlignment: Left
+      m_VerticalAlignment: Top
+      m_textAlignment: Converted
+      m_characterSpacing: 0
+      m_wordSpacing: 0
+      m_lineSpacing: 0
+      m_lineSpacingMax: 0
+      m_paragraphSpacing: 0
+      m_charWidthMaxAdj: 0
+      m_enableWordWrapping: True
+      m_wordWrappingRatios: 0,4
+      m_overflowMode: Overflow
+      m_linkedTextComponent: null
+      parentLinkedComponent: null
+      m_enableKerning: True
+      m_enableExtraPadding: False
+      checkPaddingRequired: False
+      m_isRichText: True
+      m_parseCtrlCharacters: True
+      m_isOrthographic: True
+      m_isCullingEnabled: False
+      m_horizontalMapping: Character
+      m_verticalMapping: Character
+      m_uvLineOffset: 0
+      m_geometrySortingOrder: Normal
+      m_IsTextObjectScaleStatic: False
+      m_VertexBufferAutoSizeReduction: False
+      m_useMaxVisibleDescender: True
+      m_pageToDisplay: 1
+      m_margin: (0.00, 0.00, 0.00, 0.00)
+      m_isUsingLegacyAnimationComponent: False
+      m_isVolumetricText: False
+      m_Material: null
+
+GameObject: ExitPanel (1) (active: True)
+  - Component: RectTransform
+  - Component: CanvasRenderer
+  - Component: Image
+      m_Sprite: Background (UnityEngine.Sprite)
+      m_Type: Sliced
+      m_PreserveAspect: False
+      m_FillCenter: True
+      m_FillMethod: Radial360
+      m_FillAmount: 1
+      m_FillClockwise: True
+      m_FillOrigin: 0
+      m_UseSpriteMesh: False
+      m_PixelsPerUnitMultiplier: 1
+      m_Material: null
+  - Component: Tutorial
+      tutorialText: ExitGame (TMPro.TextMeshProUGUI)
+      tutorialCanvas: PauseCanvas  (UnityEngine.Canvas)
+      gameManager: GameManager (GameManager_Script)
+      lines: System.String[]
+      textSpeed: 0,3
+      tutorialStage: 0
+
+GameObject: RestartText (active: True)
+  - Component: RectTransform
+  - Component: CanvasRenderer
+  - Component: TextMeshProUGUI
+      m_hasFontAssetChanged: False
+      m_baseMaterial: null
+      m_maskOffset: (0.00, 0.00, 0.00, 0.00)
+      m_text: Restart
+
+      m_TextPreprocessor: null
+      m_isRightToLeft: False
+      m_fontAsset: LiberationSans SDF (TMPro.TMP_FontAsset)
+      m_sharedMaterial: LiberationSans SDF Material (UnityEngine.Material)
+      m_fontSharedMaterials: UnityEngine.Material[]
+      m_fontMaterial: null
+      m_fontMaterials: UnityEngine.Material[]
+      m_fontColor32: RGBA(0, 0, 0, 255)
+      m_fontColor: RGBA(0.000, 0.000, 0.000, 1.000)
+      m_enableVertexGradient: False
+      m_colorMode: FourCornersGradient
+      m_fontColorGradient: TMPro.VertexGradient
+      m_fontColorGradientPreset: null
+      m_spriteAsset: null
+      m_tintAllSprites: False
+      m_StyleSheet: null
+      m_TextStyleHashCode: -1183493901
+      m_overrideHtmlColors: False
+      m_faceColor: RGBA(255, 255, 255, 255)
+      m_fontSize: 65
+      m_fontSizeBase: 65
+      m_fontWeight: Regular
+      m_enableAutoSizing: False
+      m_fontSizeMin: 18
+      m_fontSizeMax: 72
+      m_fontStyle: Bold
+      m_HorizontalAlignment: Left
+      m_VerticalAlignment: Top
+      m_textAlignment: Converted
+      m_characterSpacing: 0
+      m_wordSpacing: 0
+      m_lineSpacing: 0
+      m_lineSpacingMax: 0
+      m_paragraphSpacing: 0
+      m_charWidthMaxAdj: 0
+      m_enableWordWrapping: True
+      m_wordWrappingRatios: 0,4
+      m_overflowMode: Overflow
+      m_linkedTextComponent: null
+      parentLinkedComponent: null
+      m_enableKerning: True
+      m_enableExtraPadding: False
+      checkPaddingRequired: False
+      m_isRichText: True
+      m_parseCtrlCharacters: True
+      m_isOrthographic: True
+      m_isCullingEnabled: False
+      m_horizontalMapping: Character
+      m_verticalMapping: Character
+      m_uvLineOffset: 0
+      m_geometrySortingOrder: Normal
+      m_IsTextObjectScaleStatic: False
+      m_VertexBufferAutoSizeReduction: False
+      m_useMaxVisibleDescender: True
+      m_pageToDisplay: 1
+      m_margin: (0.00, 0.00, 0.00, 0.00)
+      m_isUsingLegacyAnimationComponent: False
+      m_isVolumetricText: False
+      m_Material: null
+
+GameObject: RestartPanel (active: True)
+  - Component: RectTransform
+  - Component: CanvasRenderer
+  - Component: Image
+      m_Sprite: Background (UnityEngine.Sprite)
+      m_Type: Sliced
+      m_PreserveAspect: False
+      m_FillCenter: True
+      m_FillMethod: Radial360
+      m_FillAmount: 1
+      m_FillClockwise: True
+      m_FillOrigin: 0
+      m_UseSpriteMesh: False
+      m_PixelsPerUnitMultiplier: 1
+      m_Material: null
+  - Component: Tutorial
+      tutorialText: RestartText (TMPro.TextMeshProUGUI)
+      tutorialCanvas: PauseCanvas  (UnityEngine.Canvas)
+      gameManager: GameManager (GameManager_Script)
+      lines: System.String[]
+      textSpeed: 0,3
+      tutorialStage: 0
+
+GameObject: ExitGame (active: True)
+  - Component: RectTransform
+  - Component: CanvasRenderer
+  - Component: TextMeshProUGUI
+      m_hasFontAssetChanged: False
+      m_baseMaterial: null
+      m_maskOffset: (0.00, 0.00, 0.00, 0.00)
+      m_text: Exit
+
+      m_TextPreprocessor: null
+      m_isRightToLeft: False
+      m_fontAsset: LiberationSans SDF (TMPro.TMP_FontAsset)
+      m_sharedMaterial: LiberationSans SDF Material (UnityEngine.Material)
+      m_fontSharedMaterials: UnityEngine.Material[]
+      m_fontMaterial: null
+      m_fontMaterials: UnityEngine.Material[]
+      m_fontColor32: RGBA(0, 0, 0, 255)
+      m_fontColor: RGBA(0.000, 0.000, 0.000, 1.000)
+      m_enableVertexGradient: False
+      m_colorMode: FourCornersGradient
+      m_fontColorGradient: TMPro.VertexGradient
+      m_fontColorGradientPreset: null
+      m_spriteAsset: null
+      m_tintAllSprites: False
+      m_StyleSheet: null
+      m_TextStyleHashCode: -1183493901
+      m_overrideHtmlColors: False
+      m_faceColor: RGBA(255, 255, 255, 255)
+      m_fontSize: 65
+      m_fontSizeBase: 65
+      m_fontWeight: Regular
+      m_enableAutoSizing: False
+      m_fontSizeMin: 18
+      m_fontSizeMax: 72
+      m_fontStyle: Bold
+      m_HorizontalAlignment: Left
+      m_VerticalAlignment: Top
+      m_textAlignment: Converted
+      m_characterSpacing: 0
+      m_wordSpacing: 0
+      m_lineSpacing: 0
+      m_lineSpacingMax: 0
+      m_paragraphSpacing: 0
+      m_charWidthMaxAdj: 0
+      m_enableWordWrapping: True
+      m_wordWrappingRatios: 0,4
+      m_overflowMode: Overflow
+      m_linkedTextComponent: null
+      parentLinkedComponent: null
+      m_enableKerning: True
+      m_enableExtraPadding: False
+      checkPaddingRequired: False
+      m_isRichText: True
+      m_parseCtrlCharacters: True
+      m_isOrthographic: True
+      m_isCullingEnabled: False
+      m_horizontalMapping: Character
+      m_verticalMapping: Character
+      m_uvLineOffset: 0
+      m_geometrySortingOrder: Normal
+      m_IsTextObjectScaleStatic: False
+      m_VertexBufferAutoSizeReduction: False
+      m_useMaxVisibleDescender: True
+      m_pageToDisplay: 1
+      m_margin: (0.00, 0.00, 0.00, 0.00)
+      m_isUsingLegacyAnimationComponent: False
+      m_isVolumetricText: False
+      m_Material: null
+
+GameObject: ExitPanel (active: True)
+  - Component: RectTransform
+  - Component: CanvasRenderer
+  - Component: Image
+      m_Sprite: Background (UnityEngine.Sprite)
+      m_Type: Sliced
+      m_PreserveAspect: False
+      m_FillCenter: True
+      m_FillMethod: Radial360
+      m_FillAmount: 1
+      m_FillClockwise: True
+      m_FillOrigin: 0
+      m_UseSpriteMesh: False
+      m_PixelsPerUnitMultiplier: 1
+      m_Material: null
+  - Component: Tutorial
+      tutorialText: ExitGame (TMPro.TextMeshProUGUI)
+      tutorialCanvas: PauseCanvas  (UnityEngine.Canvas)
+      gameManager: GameManager (GameManager_Script)
+      lines: System.String[]
+      textSpeed: 0,3
+      tutorialStage: 0
+
+GameObject: Pause (active: True)
+  - Component: RectTransform
+  - Component: CanvasRenderer
+  - Component: Text
+      m_FontData: UnityEngine.UI.FontData
+      m_Text: Pause
+      m_Material: null
+
+GameObject: Decoration (active: True)
+  - Component: Transform
+  - Component: Tilemap
+  - Component: TilemapRenderer
+  - Component: Shadow
+      m_EffectColor: RGBA(0.000, 0.000, 0.000, 0.404)
+      m_EffectDistance: (1.00, -1.00)
+      m_UseGraphicAlpha: True
+
+GameObject: Platforms (active: True)
+  - Component: Transform
+  - Component: Tilemap
+  - Component: TilemapRenderer
+  - Component: TilemapCollider2D
+  - Component: Rigidbody2D
+  - Component: CompositeCollider2D
+
+GameObject: sky (active: True)
+  - Component: Transform
+  - Component: Tilemap
+  - Component: TilemapRenderer
+
+GameObject: Ground (active: True)
+  - Component: Transform
+  - Component: Tilemap
+  - Component: TilemapRenderer
+  - Component: TilemapCollider2D
+  - Component: Rigidbody2D
+  - Component: CompositeCollider2D
+
+GameObject: Enemies (active: False)
+  - Component: Transform
+  - Component: Tilemap
+  - Component: TilemapRenderer
+  - Component: TilemapCollider2D
+  - Component: Rigidbody2D
+
+GameObject: LevelGrid (active: True)
+  - Component: Transform
+  - Component: Grid
+  - Component: Tilemap
+
+GameObject: Walking enemy  (3) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: WalkingEnemy
+      moveDistance: 8
+      moveSpeed: 2
+      groundLayer: UnityEngine.LayerMask
+      groundCheck: Ground (UnityEngine.Transform)
 
 GameObject: JunkFood (active: True)
   - Component: Transform
@@ -35,52 +548,7 @@ GameObject: JunkFood (active: True)
       m_LightCookieOffset: (0.00, 0.00)
       m_SoftShadowQuality: UsePipelineSettings
 
-GameObject: ScoreText (active: True)
-  - Component: RectTransform
-  - Component: CanvasRenderer
-  - Component: Text
-      m_FontData: UnityEngine.UI.FontData
-      m_Text: Score: 
-      m_Material: null
-
-GameObject: ScoreCanvas (active: True)
-  - Component: RectTransform
-  - Component: Canvas
-  - Component: CanvasScaler
-      m_UiScaleMode: ConstantPixelSize
-      m_ReferencePixelsPerUnit: 100
-      m_ScaleFactor: 1
-      m_ReferenceResolution: (800.00, 600.00)
-      m_ScreenMatchMode: MatchWidthOrHeight
-      m_MatchWidthOrHeight: 0
-      m_PhysicalUnit: Points
-      m_FallbackScreenDPI: 96
-      m_DefaultSpriteDPI: 96
-      m_DynamicPixelsPerUnit: 1
-      m_PresetInfoIsWorld: False
-  - Component: GraphicRaycaster
-      m_IgnoreReversedGraphics: True
-      m_BlockingObjects: None
-      m_BlockingMask: UnityEngine.LayerMask
-  - Component: Tilemap
-
-GameObject: Flying enemy (2) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: FlyingEnemy
-      moveDistance: 5
-      moveSpeed: 2
-      moveHorizontally: True
-
-GameObject: InvisibleObstacle (2) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-
-GameObject: PowerUp (7) (active: True)
+GameObject: PowerUp (2) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
   - Component: Rigidbody2D
@@ -93,8 +561,8 @@ GameObject: PowerUp (7) (active: True)
       speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
       teleportSprite: Teleport (UnityEngine.Sprite)
       valueX: 2
-      valueY: 2,2
-      speedBoostMultiplier: 0
+      valueY: 3
+      speedBoostMultiplier: 2
       speedBoostDuration: 2
 
 GameObject: InvisibleObstacle (1) (active: True)
@@ -221,10 +689,56 @@ GameObject: DialogueCanvas (active: True)
       textSpeed: 0
       tutorialStage: 0
 
-GameObject: Goal (active: True)
+GameObject: PowerUp (5) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
-  - Component: CapsuleCollider2D
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 2,2
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
+
+GameObject: PowerUp (9) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 2,2
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
+
+GameObject: Walking enemy  (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: WalkingEnemy
+      moveDistance: 5
+      moveSpeed: 2
+      groundLayer: UnityEngine.LayerMask
+      groundCheck: Ground (UnityEngine.Transform)
+
+GameObject: InvisibleObstacle (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
 
 GameObject: PowerUp (4) (active: True)
   - Component: Transform
@@ -240,6 +754,75 @@ GameObject: PowerUp (4) (active: True)
       teleportSprite: Teleport (UnityEngine.Sprite)
       valueX: 1
       valueY: 5,5
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
+
+GameObject: InvisibleObstacle (2) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+
+GameObject: PowerUp (6) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 2,2
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
+
+GameObject: ScoreText (active: True)
+  - Component: RectTransform
+  - Component: CanvasRenderer
+  - Component: Text
+      m_FontData: UnityEngine.UI.FontData
+      m_Text: Score: 
+      m_Material: null
+
+GameObject: ScoreCanvas (active: True)
+  - Component: RectTransform
+  - Component: Canvas
+  - Component: CanvasScaler
+      m_UiScaleMode: ConstantPixelSize
+      m_ReferencePixelsPerUnit: 100
+      m_ScaleFactor: 1
+      m_ReferenceResolution: (800.00, 600.00)
+      m_ScreenMatchMode: MatchWidthOrHeight
+      m_MatchWidthOrHeight: 0
+      m_PhysicalUnit: Points
+      m_FallbackScreenDPI: 96
+      m_DefaultSpriteDPI: 96
+      m_DynamicPixelsPerUnit: 1
+      m_PresetInfoIsWorld: False
+  - Component: GraphicRaycaster
+      m_IgnoreReversedGraphics: True
+      m_BlockingObjects: None
+      m_BlockingMask: UnityEngine.LayerMask
+  - Component: Tilemap
+
+GameObject: PowerUp (7) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 2,2
       speedBoostMultiplier: 0
       speedBoostDuration: 2
 
@@ -265,6 +848,11 @@ GameObject: Walking enemy  (5) (active: True)
       groundLayer: UnityEngine.LayerMask
       groundCheck: Ground (UnityEngine.Transform)
 
+GameObject: Goal (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: CapsuleCollider2D
+
 GameObject: Dialogue_Trigger 2 (active: True)
   - Component: Transform
   - Component: BoxCollider2D
@@ -273,542 +861,6 @@ GameObject: Dialogue_Trigger 2 (active: True)
       gameManager: GameManager (GameManager_Script)
 
 GameObject: Flying enemy (1) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: FlyingEnemy
-      moveDistance: 5
-      moveSpeed: 2
-      moveHorizontally: True
-
-GameObject: PowerUp (1) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: SPEEDBOOST
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 0
-      valueY: 0
-      speedBoostMultiplier: 8
-      speedBoostDuration: 2
-
-GameObject: ExitGame (active: True)
-  - Component: RectTransform
-  - Component: CanvasRenderer
-  - Component: TextMeshProUGUI
-      m_hasFontAssetChanged: False
-      m_baseMaterial: null
-      m_maskOffset: (0.00, 0.00, 0.00, 0.00)
-      m_text: Exit
-
-      m_TextPreprocessor: null
-      m_isRightToLeft: False
-      m_fontAsset: LiberationSans SDF (TMPro.TMP_FontAsset)
-      m_sharedMaterial: LiberationSans SDF Material (UnityEngine.Material)
-      m_fontSharedMaterials: UnityEngine.Material[]
-      m_fontMaterial: null
-      m_fontMaterials: UnityEngine.Material[]
-      m_fontColor32: RGBA(0, 0, 0, 255)
-      m_fontColor: RGBA(0.000, 0.000, 0.000, 1.000)
-      m_enableVertexGradient: False
-      m_colorMode: FourCornersGradient
-      m_fontColorGradient: TMPro.VertexGradient
-      m_fontColorGradientPreset: null
-      m_spriteAsset: null
-      m_tintAllSprites: False
-      m_StyleSheet: null
-      m_TextStyleHashCode: -1183493901
-      m_overrideHtmlColors: False
-      m_faceColor: RGBA(255, 255, 255, 255)
-      m_fontSize: 65
-      m_fontSizeBase: 65
-      m_fontWeight: Regular
-      m_enableAutoSizing: False
-      m_fontSizeMin: 18
-      m_fontSizeMax: 72
-      m_fontStyle: Bold
-      m_HorizontalAlignment: Left
-      m_VerticalAlignment: Top
-      m_textAlignment: Converted
-      m_characterSpacing: 0
-      m_wordSpacing: 0
-      m_lineSpacing: 0
-      m_lineSpacingMax: 0
-      m_paragraphSpacing: 0
-      m_charWidthMaxAdj: 0
-      m_enableWordWrapping: True
-      m_wordWrappingRatios: 0,4
-      m_overflowMode: Overflow
-      m_linkedTextComponent: null
-      parentLinkedComponent: null
-      m_enableKerning: True
-      m_enableExtraPadding: False
-      checkPaddingRequired: False
-      m_isRichText: True
-      m_parseCtrlCharacters: True
-      m_isOrthographic: True
-      m_isCullingEnabled: False
-      m_horizontalMapping: Character
-      m_verticalMapping: Character
-      m_uvLineOffset: 0
-      m_geometrySortingOrder: Normal
-      m_IsTextObjectScaleStatic: False
-      m_VertexBufferAutoSizeReduction: False
-      m_useMaxVisibleDescender: True
-      m_pageToDisplay: 1
-      m_margin: (0.00, 0.00, 0.00, 0.00)
-      m_isUsingLegacyAnimationComponent: False
-      m_isVolumetricText: False
-      m_Material: null
-
-GameObject: ExitPanel (1) (active: True)
-  - Component: RectTransform
-  - Component: CanvasRenderer
-  - Component: Image
-      m_Sprite: Background (UnityEngine.Sprite)
-      m_Type: Sliced
-      m_PreserveAspect: False
-      m_FillCenter: True
-      m_FillMethod: Radial360
-      m_FillAmount: 1
-      m_FillClockwise: True
-      m_FillOrigin: 0
-      m_UseSpriteMesh: False
-      m_PixelsPerUnitMultiplier: 1
-      m_Material: null
-  - Component: Tutorial
-      tutorialText: ExitGame (TMPro.TextMeshProUGUI)
-      tutorialCanvas: PauseCanvas  (UnityEngine.Canvas)
-      gameManager: GameManager (GameManager_Script)
-      lines: System.String[]
-      textSpeed: 0,3
-      tutorialStage: 0
-
-GameObject: DialogueText (active: True)
-  - Component: RectTransform
-  - Component: CanvasRenderer
-  - Component: TextMeshProUGUI
-      m_hasFontAssetChanged: False
-      m_baseMaterial: null
-      m_maskOffset: (0.00, 0.00, 0.00, 0.00)
-      m_text: Restart
-
-      m_TextPreprocessor: null
-      m_isRightToLeft: False
-      m_fontAsset: LiberationSans SDF (TMPro.TMP_FontAsset)
-      m_sharedMaterial: LiberationSans SDF Material (UnityEngine.Material)
-      m_fontSharedMaterials: UnityEngine.Material[]
-      m_fontMaterial: null
-      m_fontMaterials: UnityEngine.Material[]
-      m_fontColor32: RGBA(0, 0, 0, 255)
-      m_fontColor: RGBA(0.000, 0.000, 0.000, 1.000)
-      m_enableVertexGradient: False
-      m_colorMode: FourCornersGradient
-      m_fontColorGradient: TMPro.VertexGradient
-      m_fontColorGradientPreset: null
-      m_spriteAsset: null
-      m_tintAllSprites: False
-      m_StyleSheet: null
-      m_TextStyleHashCode: -1183493901
-      m_overrideHtmlColors: False
-      m_faceColor: RGBA(255, 255, 255, 255)
-      m_fontSize: 65
-      m_fontSizeBase: 65
-      m_fontWeight: Regular
-      m_enableAutoSizing: False
-      m_fontSizeMin: 18
-      m_fontSizeMax: 72
-      m_fontStyle: Bold
-      m_HorizontalAlignment: Left
-      m_VerticalAlignment: Top
-      m_textAlignment: Converted
-      m_characterSpacing: 0
-      m_wordSpacing: 0
-      m_lineSpacing: 0
-      m_lineSpacingMax: 0
-      m_paragraphSpacing: 0
-      m_charWidthMaxAdj: 0
-      m_enableWordWrapping: True
-      m_wordWrappingRatios: 0,4
-      m_overflowMode: Overflow
-      m_linkedTextComponent: null
-      parentLinkedComponent: null
-      m_enableKerning: True
-      m_enableExtraPadding: False
-      checkPaddingRequired: False
-      m_isRichText: True
-      m_parseCtrlCharacters: True
-      m_isOrthographic: True
-      m_isCullingEnabled: False
-      m_horizontalMapping: Character
-      m_verticalMapping: Character
-      m_uvLineOffset: 0
-      m_geometrySortingOrder: Normal
-      m_IsTextObjectScaleStatic: False
-      m_VertexBufferAutoSizeReduction: False
-      m_useMaxVisibleDescender: True
-      m_pageToDisplay: 1
-      m_margin: (0.00, 0.00, 0.00, 0.00)
-      m_isUsingLegacyAnimationComponent: False
-      m_isVolumetricText: False
-      m_Material: null
-
-GameObject: RestartPanel (active: True)
-  - Component: RectTransform
-  - Component: CanvasRenderer
-  - Component: Image
-      m_Sprite: Background (UnityEngine.Sprite)
-      m_Type: Sliced
-      m_PreserveAspect: False
-      m_FillCenter: True
-      m_FillMethod: Radial360
-      m_FillAmount: 1
-      m_FillClockwise: True
-      m_FillOrigin: 0
-      m_UseSpriteMesh: False
-      m_PixelsPerUnitMultiplier: 1
-      m_Material: null
-  - Component: Tutorial
-      tutorialText: DialogueText (TMPro.TextMeshProUGUI)
-      tutorialCanvas: PauseCanvas  (UnityEngine.Canvas)
-      gameManager: GameManager (GameManager_Script)
-      lines: System.String[]
-      textSpeed: 0,3
-      tutorialStage: 0
-
-GameObject: ExitGame (active: True)
-  - Component: RectTransform
-  - Component: CanvasRenderer
-  - Component: TextMeshProUGUI
-      m_hasFontAssetChanged: False
-      m_baseMaterial: null
-      m_maskOffset: (0.00, 0.00, 0.00, 0.00)
-      m_text: Exit
-
-      m_TextPreprocessor: null
-      m_isRightToLeft: False
-      m_fontAsset: LiberationSans SDF (TMPro.TMP_FontAsset)
-      m_sharedMaterial: LiberationSans SDF Material (UnityEngine.Material)
-      m_fontSharedMaterials: UnityEngine.Material[]
-      m_fontMaterial: null
-      m_fontMaterials: UnityEngine.Material[]
-      m_fontColor32: RGBA(0, 0, 0, 255)
-      m_fontColor: RGBA(0.000, 0.000, 0.000, 1.000)
-      m_enableVertexGradient: False
-      m_colorMode: FourCornersGradient
-      m_fontColorGradient: TMPro.VertexGradient
-      m_fontColorGradientPreset: null
-      m_spriteAsset: null
-      m_tintAllSprites: False
-      m_StyleSheet: null
-      m_TextStyleHashCode: -1183493901
-      m_overrideHtmlColors: False
-      m_faceColor: RGBA(255, 255, 255, 255)
-      m_fontSize: 65
-      m_fontSizeBase: 65
-      m_fontWeight: Regular
-      m_enableAutoSizing: False
-      m_fontSizeMin: 18
-      m_fontSizeMax: 72
-      m_fontStyle: Bold
-      m_HorizontalAlignment: Left
-      m_VerticalAlignment: Top
-      m_textAlignment: Converted
-      m_characterSpacing: 0
-      m_wordSpacing: 0
-      m_lineSpacing: 0
-      m_lineSpacingMax: 0
-      m_paragraphSpacing: 0
-      m_charWidthMaxAdj: 0
-      m_enableWordWrapping: True
-      m_wordWrappingRatios: 0,4
-      m_overflowMode: Overflow
-      m_linkedTextComponent: null
-      parentLinkedComponent: null
-      m_enableKerning: True
-      m_enableExtraPadding: False
-      checkPaddingRequired: False
-      m_isRichText: True
-      m_parseCtrlCharacters: True
-      m_isOrthographic: True
-      m_isCullingEnabled: False
-      m_horizontalMapping: Character
-      m_verticalMapping: Character
-      m_uvLineOffset: 0
-      m_geometrySortingOrder: Normal
-      m_IsTextObjectScaleStatic: False
-      m_VertexBufferAutoSizeReduction: False
-      m_useMaxVisibleDescender: True
-      m_pageToDisplay: 1
-      m_margin: (0.00, 0.00, 0.00, 0.00)
-      m_isUsingLegacyAnimationComponent: False
-      m_isVolumetricText: False
-      m_Material: null
-
-GameObject: ExitPanel (active: True)
-  - Component: RectTransform
-  - Component: CanvasRenderer
-  - Component: Image
-      m_Sprite: Background (UnityEngine.Sprite)
-      m_Type: Sliced
-      m_PreserveAspect: False
-      m_FillCenter: True
-      m_FillMethod: Radial360
-      m_FillAmount: 1
-      m_FillClockwise: True
-      m_FillOrigin: 0
-      m_UseSpriteMesh: False
-      m_PixelsPerUnitMultiplier: 1
-      m_Material: null
-  - Component: Tutorial
-      tutorialText: ExitGame (TMPro.TextMeshProUGUI)
-      tutorialCanvas: PauseCanvas  (UnityEngine.Canvas)
-      gameManager: GameManager (GameManager_Script)
-      lines: System.String[]
-      textSpeed: 0,3
-      tutorialStage: 0
-
-GameObject: Pause (active: True)
-  - Component: RectTransform
-  - Component: CanvasRenderer
-  - Component: Text
-      m_FontData: UnityEngine.UI.FontData
-      m_Text: New Text
-      m_Material: null
-
-GameObject: PowerUp  (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 0
-      valueY: 5
-      speedBoostMultiplier: 2
-      speedBoostDuration: 2
-
-GameObject: Decoration (active: True)
-  - Component: Transform
-  - Component: Tilemap
-  - Component: TilemapRenderer
-  - Component: Shadow
-      m_EffectColor: RGBA(0.000, 0.000, 0.000, 0.404)
-      m_EffectDistance: (1.00, -1.00)
-      m_UseGraphicAlpha: True
-
-GameObject: Platforms (active: True)
-  - Component: Transform
-  - Component: Tilemap
-  - Component: TilemapRenderer
-  - Component: TilemapCollider2D
-  - Component: Rigidbody2D
-  - Component: CompositeCollider2D
-
-GameObject: sky (active: True)
-  - Component: Transform
-  - Component: Tilemap
-  - Component: TilemapRenderer
-
-GameObject: Ground (active: True)
-  - Component: Transform
-  - Component: Tilemap
-  - Component: TilemapRenderer
-  - Component: TilemapCollider2D
-  - Component: Rigidbody2D
-  - Component: CompositeCollider2D
-
-GameObject: Enemies (active: False)
-  - Component: Transform
-  - Component: Tilemap
-  - Component: TilemapRenderer
-  - Component: TilemapCollider2D
-  - Component: Rigidbody2D
-
-GameObject: LevelGrid (active: True)
-  - Component: Transform
-  - Component: Grid
-  - Component: Tilemap
-
-GameObject: Main Camera (active: True)
-  - Component: Transform
-  - Component: Camera
-  - Component: AudioListener
-  - Component: UniversalAdditionalCameraData
-      m_RenderShadows: True
-      m_RequiresDepthTextureOption: UsePipelineSettings
-      m_RequiresOpaqueTextureOption: UsePipelineSettings
-      m_CameraType: Base
-      m_Cameras: System.Collections.Generic.List`1[UnityEngine.Camera]
-      m_RendererIndex: -1
-      m_VolumeLayerMask: UnityEngine.LayerMask
-      m_VolumeTrigger: null
-      m_VolumeFrameworkUpdateModeOption: UsePipelineSettings
-      m_RenderPostProcessing: False
-      m_Antialiasing: None
-      m_AntialiasingQuality: High
-      m_StopNaN: False
-      m_Dithering: False
-      m_ClearDepth: True
-      m_AllowXRRendering: True
-      m_AllowHDROutput: True
-      m_UseScreenCoordOverride: False
-      m_ScreenSizeOverride: (0.00, 0.00, 0.00, 0.00)
-      m_ScreenCoordScaleBias: (0.00, 0.00, 0.00, 0.00)
-      m_RequiresDepthTexture: False
-      m_RequiresColorTexture: False
-      m_Version: 2
-      m_TaaSettings: UnityEngine.Rendering.Universal.TemporalAA+Settings
-  - Component: CameraScript
-      Player: null
-      smoothTime: 0,3
-      offset: (0.00, -1.00, 0.00)
-      minY: -5
-      maxY: 20
-      followYAxis: True
-      deadZoneY: 2
-
-GameObject: PowerUp (8) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 2
-      valueY: 2,2
-      speedBoostMultiplier: 0
-      speedBoostDuration: 2
-
-GameObject: Enemy (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: EnemyScript
-      originalColor: RGBA(0.996, 0.996, 0.996, 0.000)
-      alertColor: RGBA(1.000, 0.000, 0.000, 0.886)
-      detectionRange: 5
-
-GameObject: Walking enemy  (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: WalkingEnemy
-      moveDistance: 5
-      moveSpeed: 2
-      groundLayer: UnityEngine.LayerMask
-      groundCheck: Ground (UnityEngine.Transform)
-
-GameObject: Walking enemy  (4) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: WalkingEnemy
-      moveDistance: 5
-      moveSpeed: 2
-      groundLayer: UnityEngine.LayerMask
-      groundCheck: Platforms (UnityEngine.Transform)
-
-GameObject: PowerUp (6) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 2
-      valueY: 2,2
-      speedBoostMultiplier: 0
-      speedBoostDuration: 2
-
-GameObject: Player (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: PlayerMovement
-      speed: 4
-      maxSpeed: 6
-      jumpForce: 12
-      fallMultiplier: 2,5
-      lowJumpMultiplier: 2
-      coyoteTime: 0,2
-      jumpBufferTime: 0,2
-      dashSpeed: 20
-      dashDuration: 0,9
-      dashDistance: 20
-      boostSpeed: 15
-      rb: Player (UnityEngine.Rigidbody2D)
-      ground: null
-      player: null
-      platform: null
-      platformTrigger: null
-      currentPlatform: null
-      gameManager: null
-      gameManagerScript: null
-      cameraTransform: null
-      levelIndex: 0
-      isTutorial: False
-      isGrounded: False
-      endLevel: False
-      gameOver: False
-      posX: 0
-      posY: 0
-      playerScaled: False
-
-GameObject: Flying enemy (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: FlyingEnemy
-      moveDistance: 2
-      moveSpeed: 0,5
-      moveHorizontally: False
-
-GameObject: Walking enemy  (1) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: WalkingEnemy
-      moveDistance: 5
-      moveSpeed: 2
-      groundLayer: UnityEngine.LayerMask
-      groundCheck: Platforms (UnityEngine.Transform)
-
-GameObject: InvisibleObstacle (3) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-
-GameObject: Flying enemy (3) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
   - Component: BoxCollider2D
@@ -835,67 +887,15 @@ GameObject: PowerUp (3) (active: True)
       speedBoostMultiplier: 2
       speedBoostDuration: 2
 
-GameObject: Dialogue_Trigger (active: True)
-  - Component: Transform
-  - Component: BoxCollider2D
-  - Component: TutorialTrigger
-      tutorialStage: 8
-      gameManager: GameManager (GameManager_Script)
-
-GameObject: InvisibleObstacle (active: True)
+GameObject: Enemy (active: True)
   - Component: Transform
   - Component: SpriteRenderer
   - Component: BoxCollider2D
   - Component: Rigidbody2D
-
-GameObject: SceneReloader (active: True)
-  - Component: Transform
-  - Component: RestartLevel
-
-GameObject: Walking enemy  (3) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: WalkingEnemy
-      moveDistance: 8
-      moveSpeed: 2
-      groundLayer: UnityEngine.LayerMask
-      groundCheck: Ground (UnityEngine.Transform)
-
-GameObject: PowerUp (2) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 2
-      valueY: 3
-      speedBoostMultiplier: 2
-      speedBoostDuration: 2
-
-GameObject: PowerUp (5) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 2
-      valueY: 2,2
-      speedBoostMultiplier: 0
-      speedBoostDuration: 2
+  - Component: EnemyScript
+      originalColor: RGBA(0.996, 0.996, 0.996, 0.000)
+      alertColor: RGBA(1.000, 0.000, 0.000, 0.886)
+      detectionRange: 5
 
 GameObject: GameOverPanel (active: True)
   - Component: RectTransform
