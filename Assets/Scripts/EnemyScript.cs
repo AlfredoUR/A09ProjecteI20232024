@@ -4,64 +4,59 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
-
     public Color originalColor;
     public Color alertColor;
     public float detectionRange = 5.0f;
+
     private GameObject player;
-    private PlayerMovement playerMovement;
     private SpriteRenderer spriteRenderer;
-    // Start is called before the first frame update
+    private bool isDetectingPlayer = false;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            playerMovement = player.GetComponent<PlayerMovement>();
-        }
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (player == null) return;
+
         float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+
         if (distanceToPlayer <= detectionRange)
         {
-            playerMovement.SetCanDash(true);
+            isDetectingPlayer = true;
             spriteRenderer.color = alertColor;
         }
         else
         {
-            playerMovement.SetCanDash(false);
+            isDetectingPlayer = false;
             spriteRenderer.color = originalColor;
         }
     }
 
+    public bool IsDetectingPlayer()
+    {
+        return isDetectingPlayer;
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && playerMovement != null)
+        if (other.CompareTag("Player"))
         {
-            playerMovement.SetCanDash(true);
-            spriteRenderer.color = Color.red;
-
+            isDetectingPlayer = true;
+            spriteRenderer.color = alertColor;
         }
-
     }
+
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && playerMovement != null)
+        if (other.CompareTag("Player"))
         {
-            playerMovement.SetCanDash(false);
-            spriteRenderer.color = Color.white;
+            isDetectingPlayer = false;
+            spriteRenderer.color = originalColor;
         }
     }
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.tag == "Player")
-    //    {
-    //        Destroy(gameObject);
-    //    }
-    //}
 }

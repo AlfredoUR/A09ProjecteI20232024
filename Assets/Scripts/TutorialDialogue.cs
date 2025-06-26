@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor;
 
 public class Tutorial : MonoBehaviour
 {
@@ -16,7 +14,6 @@ public class Tutorial : MonoBehaviour
 
     void Start()
     {
-        // AUTOCONFIGURACIÓ DE DEPENDÈNCIES
         if (tutorialText == null)
         {
             tutorialText = FindObjectOfType<TextMeshProUGUI>();

@@ -1,31 +1,67 @@
-GameObject: ScoreText (active: True)
-  - Component: RectTransform
-  - Component: CanvasRenderer
-  - Component: Text
-      m_FontData: UnityEngine.UI.FontData
-      m_Text: Score: 
-      m_Material: null
+GameObject: Walking enemy  (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: WalkingEnemy
+      moveDistance: 5
+      moveSpeed: 2
+      groundLayer: UnityEngine.LayerMask
+      groundCheck: Ground (UnityEngine.Transform)
 
-GameObject: ScoreCanvas (active: True)
-  - Component: RectTransform
-  - Component: Canvas
-  - Component: CanvasScaler
-      m_UiScaleMode: ConstantPixelSize
-      m_ReferencePixelsPerUnit: 100
-      m_ScaleFactor: 1
-      m_ReferenceResolution: (800.00, 600.00)
-      m_ScreenMatchMode: MatchWidthOrHeight
-      m_MatchWidthOrHeight: 0
-      m_PhysicalUnit: Points
-      m_FallbackScreenDPI: 96
-      m_DefaultSpriteDPI: 96
-      m_DynamicPixelsPerUnit: 1
-      m_PresetInfoIsWorld: False
-  - Component: GraphicRaycaster
-      m_IgnoreReversedGraphics: True
-      m_BlockingObjects: None
-      m_BlockingMask: UnityEngine.LayerMask
-  - Component: Tilemap
+GameObject: Flying enemy (1) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: FlyingEnemy
+      moveDistance: 5
+      moveSpeed: 3
+      moveHorizontally: True
+
+GameObject: Enemy (3) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: EnemyScript
+      originalColor: RGBA(0.996, 0.996, 0.996, 0.000)
+      alertColor: RGBA(1.000, 0.000, 0.000, 0.886)
+      detectionRange: 6
+
+GameObject: PowerUp (7) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 1
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 2,2
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
+
+GameObject: PowerUp (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: SPEEDBOOST
+      duration: 2
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 0
+      valueY: 0
+      speedBoostMultiplier: 2
+      speedBoostDuration: 2
 
 GameObject: Decoration (active: True)
   - Component: Transform
@@ -76,6 +112,202 @@ GameObject: LevelGrid (active: True)
   - Component: Grid
   - Component: Tilemap
 
+GameObject: PowerUp (10) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 0,2
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 2,2
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
+
+GameObject: Main Camera (active: True)
+  - Component: Transform
+  - Component: Camera
+  - Component: AudioListener
+  - Component: UniversalAdditionalCameraData
+      m_RenderShadows: True
+      m_RequiresDepthTextureOption: UsePipelineSettings
+      m_RequiresOpaqueTextureOption: UsePipelineSettings
+      m_CameraType: Base
+      m_Cameras: System.Collections.Generic.List`1[UnityEngine.Camera]
+      m_RendererIndex: -1
+      m_VolumeLayerMask: UnityEngine.LayerMask
+      m_VolumeTrigger: null
+      m_VolumeFrameworkUpdateModeOption: UsePipelineSettings
+      m_RenderPostProcessing: False
+      m_Antialiasing: None
+      m_AntialiasingQuality: High
+      m_StopNaN: False
+      m_Dithering: False
+      m_ClearDepth: True
+      m_AllowXRRendering: True
+      m_AllowHDROutput: True
+      m_UseScreenCoordOverride: False
+      m_ScreenSizeOverride: (0.00, 0.00, 0.00, 0.00)
+      m_ScreenCoordScaleBias: (0.00, 0.00, 0.00, 0.00)
+      m_RequiresDepthTexture: False
+      m_RequiresColorTexture: False
+      m_Version: 2
+      m_TaaSettings: UnityEngine.Rendering.Universal.TemporalAA+Settings
+  - Component: CameraScript
+      Player: Player (UnityEngine.Transform)
+      smoothTime: 0,3
+      offset: (8.00, 2.00, -10.00)
+      minY: -5
+      maxY: 20
+      followYAxis: True
+      deadZoneY: 2
+
+GameObject: Flying enemy (4) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: FlyingEnemy
+      moveDistance: 5
+      moveSpeed: 2
+      moveHorizontally: True
+
+GameObject: InvisibleObstacle (3) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+
+GameObject: ScoreText (active: True)
+  - Component: RectTransform
+  - Component: CanvasRenderer
+  - Component: Text
+      m_FontData: UnityEngine.UI.FontData
+      m_Text: Score: 
+      m_Material: null
+
+GameObject: ScoreCanvas (active: True)
+  - Component: RectTransform
+  - Component: Canvas
+  - Component: CanvasScaler
+      m_UiScaleMode: ConstantPixelSize
+      m_ReferencePixelsPerUnit: 100
+      m_ScaleFactor: 1
+      m_ReferenceResolution: (800.00, 600.00)
+      m_ScreenMatchMode: MatchWidthOrHeight
+      m_MatchWidthOrHeight: 0
+      m_PhysicalUnit: Points
+      m_FallbackScreenDPI: 96
+      m_DefaultSpriteDPI: 96
+      m_DynamicPixelsPerUnit: 1
+      m_PresetInfoIsWorld: False
+  - Component: GraphicRaycaster
+      m_IgnoreReversedGraphics: True
+      m_BlockingObjects: None
+      m_BlockingMask: UnityEngine.LayerMask
+  - Component: Tilemap
+
+GameObject: Goal (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: CapsuleCollider2D
+
+GameObject: Flying enemy (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: FlyingEnemy
+      moveDistance: 2
+      moveSpeed: 2
+      moveHorizontally: False
+
+GameObject: InvisibleObstacle (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+
+GameObject: Enemy (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: EnemyScript
+      originalColor: RGBA(0.996, 0.996, 0.996, 0.000)
+      alertColor: RGBA(1.000, 0.000, 0.000, 0.886)
+      detectionRange: 6
+
+GameObject: SceneReloader (active: True)
+  - Component: Transform
+  - Component: RestartLevel
+
+GameObject: Flying enemy (2) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: FlyingEnemy
+      moveDistance: 5
+      moveSpeed: 2
+      moveHorizontally: True
+
+GameObject: PowerUp (1) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: SPEEDBOOST
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 0
+      valueY: 0
+      speedBoostMultiplier: 2
+      speedBoostDuration: 2,3
+
+GameObject: PowerUp (6) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 2
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 2,2
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
+
+GameObject: PowerUp (9) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 2
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 2,2
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
+
 GameObject: Walking enemy  (4) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
@@ -86,6 +318,105 @@ GameObject: Walking enemy  (4) (active: True)
       moveSpeed: 2
       groundLayer: UnityEngine.LayerMask
       groundCheck: Platforms (UnityEngine.Transform)
+
+GameObject: Walking enemy  (5) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: WalkingEnemy
+      moveDistance: 5
+      moveSpeed: 2
+      groundLayer: UnityEngine.LayerMask
+      groundCheck: Ground (UnityEngine.Transform)
+
+GameObject: Enemy (1) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: EnemyScript
+      originalColor: RGBA(0.996, 0.996, 0.996, 0.000)
+      alertColor: RGBA(1.000, 0.000, 0.000, 0.886)
+      detectionRange: 7
+
+GameObject: PowerUp (3) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: SPEEDBOOST
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 0
+      valueY: 0
+      speedBoostMultiplier: 2
+      speedBoostDuration: 2
+
+GameObject: PowerUp (8) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 0,8
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 2,2
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
+
+GameObject: PowerUp (2) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 4
+      speedBoostMultiplier: 0
+      speedBoostDuration: 0
+
+GameObject: Enemy (2) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: EnemyScript
+      originalColor: RGBA(0.996, 0.996, 0.996, 0.000)
+      alertColor: RGBA(1.000, 0.000, 0.000, 0.886)
+      detectionRange: 7
+
+GameObject: PowerUp (5) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 3
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 2,2
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
 
 GameObject: ExitGame (active: True)
   - Component: RectTransform
@@ -364,23 +695,6 @@ GameObject: Pause (active: True)
       m_Text: New Text
       m_Material: null
 
-GameObject: PowerUp (7) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 2
-      valueY: 2,2
-      speedBoostMultiplier: 0
-      speedBoostDuration: 2
-
 GameObject: Walking enemy  (1) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
@@ -392,215 +706,17 @@ GameObject: Walking enemy  (1) (active: True)
       groundLayer: UnityEngine.LayerMask
       groundCheck: Platforms (UnityEngine.Transform)
 
-GameObject: Dialogue_Trigger (active: True)
-  - Component: Transform
-  - Component: BoxCollider2D
-  - Component: TutorialTrigger
-      tutorialStage: 8
-      gameManager: GameManager (GameManager_Script)
-
-GameObject: Enemy (1) (active: True)
+GameObject: InvisibleObstacle (1) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
   - Component: BoxCollider2D
   - Component: Rigidbody2D
-  - Component: EnemyScript
-      originalColor: RGBA(0.996, 0.996, 0.996, 0.000)
-      alertColor: RGBA(1.000, 0.000, 0.000, 0.886)
-      detectionRange: 7
 
-GameObject: PowerUp (9) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 2
-      valueY: 2,2
-      speedBoostMultiplier: 0
-      speedBoostDuration: 2
-
-GameObject: Walking enemy  (2) (active: True)
+GameObject: InvisibleObstacle (2) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
   - Component: BoxCollider2D
   - Component: Rigidbody2D
-  - Component: WalkingEnemy
-      moveDistance: 5
-      moveSpeed: 2
-      groundLayer: UnityEngine.LayerMask
-      groundCheck: Platforms (UnityEngine.Transform)
-
-GameObject: PowerUp (2) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 2
-      valueY: 3
-      speedBoostMultiplier: 2
-      speedBoostDuration: 2
-
-GameObject: Flying enemy (3) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: FlyingEnemy
-      moveDistance: 5
-      moveSpeed: 2
-      moveHorizontally: True
-
-GameObject: Walking enemy  (3) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: WalkingEnemy
-      moveDistance: 9
-      moveSpeed: 1
-      groundLayer: UnityEngine.LayerMask
-      groundCheck: Ground (UnityEngine.Transform)
-
-GameObject: Dialogue_Trigger 2 (active: True)
-  - Component: Transform
-  - Component: BoxCollider2D
-  - Component: TutorialTrigger
-      tutorialStage: 9
-      gameManager: GameManager (GameManager_Script)
-
-GameObject: PowerUp  (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 0
-      valueY: 5
-      speedBoostMultiplier: 2
-      speedBoostDuration: 2
-
-GameObject: Main Camera (active: True)
-  - Component: Transform
-  - Component: Camera
-  - Component: AudioListener
-  - Component: UniversalAdditionalCameraData
-      m_RenderShadows: True
-      m_RequiresDepthTextureOption: UsePipelineSettings
-      m_RequiresOpaqueTextureOption: UsePipelineSettings
-      m_CameraType: Base
-      m_Cameras: System.Collections.Generic.List`1[UnityEngine.Camera]
-      m_RendererIndex: -1
-      m_VolumeLayerMask: UnityEngine.LayerMask
-      m_VolumeTrigger: null
-      m_VolumeFrameworkUpdateModeOption: UsePipelineSettings
-      m_RenderPostProcessing: False
-      m_Antialiasing: None
-      m_AntialiasingQuality: High
-      m_StopNaN: False
-      m_Dithering: False
-      m_ClearDepth: True
-      m_AllowXRRendering: True
-      m_AllowHDROutput: True
-      m_UseScreenCoordOverride: False
-      m_ScreenSizeOverride: (0.00, 0.00, 0.00, 0.00)
-      m_ScreenCoordScaleBias: (0.00, 0.00, 0.00, 0.00)
-      m_RequiresDepthTexture: False
-      m_RequiresColorTexture: False
-      m_Version: 2
-      m_TaaSettings: UnityEngine.Rendering.Universal.TemporalAA+Settings
-  - Component: CameraScript
-      Player: Player (UnityEngine.Transform)
-      smoothTime: 0,3
-      offset: (8.00, 2.00, -10.00)
-      minY: -5
-      maxY: 20
-      followYAxis: True
-      deadZoneY: 2
-
-GameObject: Flying enemy (2) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: FlyingEnemy
-      moveDistance: 5
-      moveSpeed: 2
-      moveHorizontally: True
-
-GameObject: Enemy (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: EnemyScript
-      originalColor: RGBA(0.996, 0.996, 0.996, 0.000)
-      alertColor: RGBA(1.000, 0.000, 0.000, 0.886)
-      detectionRange: 5
-
-GameObject: PowerUp (1) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: SPEEDBOOST
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 0
-      valueY: 0
-      speedBoostMultiplier: 2
-      speedBoostDuration: 2,3
-
-GameObject: PowerUp (8) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 2
-      valueY: 2,2
-      speedBoostMultiplier: 0
-      speedBoostDuration: 2
-
-GameObject: Walking enemy  (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: WalkingEnemy
-      moveDistance: 5
-      moveSpeed: 2
-      groundLayer: UnityEngine.LayerMask
-      groundCheck: Ground (UnityEngine.Transform)
 
 GameObject: Player (active: True)
   - Component: Transform
@@ -616,7 +732,7 @@ GameObject: Player (active: True)
       coyoteTime: 0,2
       jumpBufferTime: 0,2
       dashSpeed: 20
-      dashDuration: 0,5
+      dashDuration: 2
       dashDistance: 8
       boostSpeed: 15
       rb: Player (UnityEngine.Rigidbody2D)
@@ -636,21 +752,6 @@ GameObject: Player (active: True)
       posX: 0
       posY: 0
       playerScaled: False
-
-GameObject: Goal (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: CapsuleCollider2D
-
-GameObject: Flying enemy (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: FlyingEnemy
-      moveDistance: 2
-      moveSpeed: 0,5
-      moveHorizontally: False
 
 GameObject: JunkFood (active: True)
   - Component: Transform
@@ -672,81 +773,7 @@ GameObject: JunkFood (active: True)
       m_LightCookieOffset: (0.00, 0.00)
       m_SoftShadowQuality: UsePipelineSettings
 
-GameObject: InvisibleObstacle (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-
-GameObject: SceneReloader (active: True)
-  - Component: Transform
-  - Component: RestartLevel
-
-GameObject: Enemy (3) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: EnemyScript
-      originalColor: RGBA(0.996, 0.996, 0.996, 0.000)
-      alertColor: RGBA(1.000, 0.000, 0.000, 0.886)
-      detectionRange: 5
-
-GameObject: Enemy (2) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: EnemyScript
-      originalColor: RGBA(0.996, 0.996, 0.996, 0.000)
-      alertColor: RGBA(1.000, 0.000, 0.000, 0.886)
-      detectionRange: 5
-
-GameObject: Flying enemy (1) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: FlyingEnemy
-      moveDistance: 5
-      moveSpeed: 3
-      moveHorizontally: True
-
-GameObject: PowerUp (6) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 2
-      valueY: 2,2
-      speedBoostMultiplier: 0
-      speedBoostDuration: 2
-
-GameObject: PowerUp (5) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: Rigidbody2D
-  - Component: CircleCollider2D
-  - Component: Halo
-  - Component: PowerUp
-      powerUpType: TELEPORT
-      duration: 5
-      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
-      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
-      teleportSprite: Teleport (UnityEngine.Sprite)
-      valueX: 2
-      valueY: 2,2
-      speedBoostMultiplier: 0
-      speedBoostDuration: 2
-
-GameObject: Walking enemy  (5) (active: True)
+GameObject: Walking enemy  (2) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
   - Component: BoxCollider2D
@@ -755,40 +782,42 @@ GameObject: Walking enemy  (5) (active: True)
       moveDistance: 5
       moveSpeed: 2
       groundLayer: UnityEngine.LayerMask
+      groundCheck: Platforms (UnityEngine.Transform)
+
+GameObject: Walking enemy  (3) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: WalkingEnemy
+      moveDistance: 9
+      moveSpeed: 1
+      groundLayer: UnityEngine.LayerMask
       groundCheck: Ground (UnityEngine.Transform)
 
-GameObject: PowerUp (3) (active: True)
+GameObject: PowerUp  (active: True)
   - Component: Transform
   - Component: SpriteRenderer
   - Component: Rigidbody2D
   - Component: CircleCollider2D
   - Component: Halo
   - Component: PowerUp
-      powerUpType: SPEEDBOOST
+      powerUpType: TELEPORT
       duration: 5
       invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
       speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
       teleportSprite: Teleport (UnityEngine.Sprite)
       valueX: 0
-      valueY: 0
+      valueY: 5
       speedBoostMultiplier: 2
       speedBoostDuration: 2
 
-GameObject: InvisibleObstacle (3) (active: True)
+GameObject: Dialogue_Trigger (active: True)
   - Component: Transform
-  - Component: SpriteRenderer
   - Component: BoxCollider2D
-  - Component: Rigidbody2D
-
-GameObject: Flying enemy (4) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
-  - Component: FlyingEnemy
-      moveDistance: 5
-      moveSpeed: 2
-      moveHorizontally: True
+  - Component: TutorialTrigger
+      tutorialStage: 8
+      gameManager: GameManager (GameManager_Script)
 
 GameObject: PowerUp (4) (active: True)
   - Component: Transform
@@ -807,17 +836,12 @@ GameObject: PowerUp (4) (active: True)
       speedBoostMultiplier: 0
       speedBoostDuration: 2
 
-GameObject: InvisibleObstacle (1) (active: True)
+GameObject: Dialogue_Trigger 2 (active: True)
   - Component: Transform
-  - Component: SpriteRenderer
   - Component: BoxCollider2D
-  - Component: Rigidbody2D
-
-GameObject: InvisibleObstacle (2) (active: True)
-  - Component: Transform
-  - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
+  - Component: TutorialTrigger
+      tutorialStage: 9
+      gameManager: GameManager (GameManager_Script)
 
 GameObject: DialogueText (active: True)
   - Component: RectTransform
@@ -937,6 +961,16 @@ GameObject: DialogueCanvas (active: True)
       textSpeed: 0
       tutorialStage: 0
 
+GameObject: Flying enemy (3) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: FlyingEnemy
+      moveDistance: 5
+      moveSpeed: 2
+      moveHorizontally: True
+
 GameObject: PauseCanvas  (active: False)
   - Component: RectTransform
   - Component: Canvas
@@ -984,15 +1018,15 @@ GameObject: GameManager (active: True)
   - Component: Transform
   - Component: GameManager_Script
       scoreText: ScoreText (UnityEngine.UI.Text)
-      tutorialScript: DialogueCanvas (Tutorial)
-      score: 0
-      tutorialIndex: 0
       pausePanel: PausePanel (UnityEngine.GameObject)
       gameOverPanel: GameOverPanel (UnityEngine.GameObject)
       gameUIPanel: PauseCanvas  (UnityEngine.GameObject)
-      isPaused: False
       pauseText: Pause (UnityEngine.UI.Text)
+      tutorialScript: DialogueCanvas (Tutorial)
+      score: 0
+      isPaused: False
       pauseTime: False
+      tutorialIndex: 0
   - Component: SceneChanger
       GameOverScene: UnityEngine.SceneManagement.Scene
       sceneName: Level1

@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
     private bool isJumping;
+    private bool wasGroundedLastFrame;
     //Dashing
     private bool isDashing = false;
     private float dashTime;
@@ -62,7 +63,6 @@ public class PlayerMovement : MonoBehaviour
    
     public int levelIndex;
     public bool isTutorial;
-    bool platformFound;
     public bool isGrounded;
     public bool endLevel;
     public bool gameOver;
@@ -92,7 +92,6 @@ public class PlayerMovement : MonoBehaviour
             cameraTransform = Camera.main != null ? Camera.main.transform : null;
         }
 
-        //gameManagerScript = FindObjectOfType<GameManager_Script>();
         levelIndex = gameManager.GetComponent<SceneChanger>().GetLevelIndex();
         speed = baseSpeed;
         previousSpeed = speed;
@@ -105,13 +104,12 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = false;
         endLevel = false;
         isJumping = false;
-        gamePaused = gameManager.GetComponent<GameManager_Script>().isPaused;
+        gamePaused = gameManagerScript.IsGamePaused();
 
         ground = GameObject.FindWithTag("Ground");
         isDashing = false;
 
         platform = GameObject.FindWithTag("Platform");
-        platformFound = false;
         canTeleport = false;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -130,19 +128,26 @@ public class PlayerMovement : MonoBehaviour
             if (tutorialScript == null)
             {
                 Debug.LogError("Tutorial script not found on GameManager");
+                tutorialScript = FindObjectOfType<Tutorial>();
             }
         }
         levelIndex = gameManagerScript != null ? gameManagerScript.GetComponent<SceneChanger>()?.GetLevelIndex() ?? -1 : -1;
     }
     void Update()
     {
+        Debug.Log(canDash);
         posX = rb.position.x;
         posY = rb.position.y;
+
+        CheckEnemyDetection();
 
         if (!gameOver && !gamePaused)
         {
             if (!endLevel)
             {
+                HandleJump();
+                HandleDash();
+                HandlePowerUps();
             }
             else
             {
@@ -154,54 +159,8 @@ public class PlayerMovement : MonoBehaviour
             GameOver();
         }
 
+        wasGroundedLastFrame = isGrounded;
 
-        if (!gamePaused)
-        {
-            if (isGrounded && Input.GetKeyDown(KeyCode.Space))
-            {
-                rb.AddForce(new Vector2(0, jumpForce * speed));
-            }
-
-            if (isGrounded)
-            {
-                if (Input.GetKeyUp(KeyCode.LeftShift) && !isDashing && canDash)
-                {
-                    StartDash();
-                }
-
-                if (isDashing)
-                {
-                    dashTime -= Time.deltaTime;
-                    if (dashTime <= 0 || Vector2.Distance(dashStartPos, rb.position) >= dashDistance)
-                    {
-                        EndDash();
-                    }
-                }
-            }
-
-            if (isInvulnerable && Time.time >= invulnerabilityEndTime)
-            {
-                isInvulnerable = false;
-                SetColor(originalColor);
-            }
-
-            if (isSpeedBoosted && Time.time >= speedBoostEndTime)
-            {
-                EndSpeedBoost();
-            }
-
-            if (canTeleport && Time.time >= teleportEndTime)
-            {
-                canTeleport = false;
-                SetColor(originalColor);
-            }
-
-            if (canTeleport && Input.GetKeyDown(KeyCode.Z))
-            {
-                Teleport();
-            }
-        }
-        
     }
     void FixedUpdate()
     {
@@ -236,27 +195,62 @@ public class PlayerMovement : MonoBehaviour
             jumpBufferCounter -= Time.deltaTime;
         }
 
-        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f && !isJumping)
         {
             Jump();
-            jumpBufferCounter = 0f;
+            jumpBufferCounter = 0f; 
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0f)
+        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0f && isJumping)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-            coyoteTimeCounter = 0f;
+            coyoteTimeCounter = 0f; 
         }
+        if (isGrounded && !wasGroundedLastFrame)
+        {
+            isJumping = false;
+        }
+    }
+    void HandleDash()
+    {
+        if (isGrounded && Input.GetKeyUp(KeyCode.LeftShift) && !isDashing && canDash)
+        {
+            StartDash();
+        }
+
+        if (isDashing)
+        {
+            dashTime -= Time.deltaTime;
+            if (dashTime <= 0 || Vector2.Distance(dashStartPos, rb.position) >= dashDistance)
+            {
+                EndDash();
+            }
+        }
+    }
+
+    void CheckEnemyDetection()
+    {
+        EnemyScript[] enemies = FindObjectsOfType<EnemyScript>();
+        bool anyEnemyDetecting = false;
+
+        foreach (EnemyScript enemy in enemies)
+        {
+            if (enemy.IsDetectingPlayer())
+            {
+                anyEnemyDetecting = true;
+                break;
+            }
+        }
+
+        canDash = anyEnemyDetecting;
     }
 
     void Jump()
     {
-        if (isGrounded)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            isJumping = true;
-            coyoteTimeCounter = 0f;
-        }
+        
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        isJumping = true;
+        coyoteTimeCounter = 0f;
 
     }
 
@@ -326,12 +320,11 @@ public class PlayerMovement : MonoBehaviour
         SetColor(Color.yellow);
     }
 
-    public bool IsInvulnerable()
+    public bool GetIsInvulnerable()
     {
         return isInvulnerable;
     }
 
-    ////////Canviar per ModifySpeed
     public void ActivateSpeedBoost(float boost, float duration)
     {
         if (transform.localScale.x != regularPlayerWidth)
@@ -460,16 +453,6 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log($"Speed: {speedBeforeBoost}, to {speed}. Duration: {speedBoostDuration}s");
         SetColor(Color.cyan);
 
-        //StartCoroutine(TemporarySpeedChange(newSpeed, speedBoostDuration));
-
-        //if (Time.time < Time.time + speedBoostDuration)
-        //{
-        //    SetColor(Color.cyan);
-        //}
-        //else
-        //{
-        //    SetColor(originalColor);
-        //}
 
     }
 
@@ -482,13 +465,6 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log($"Speed boost ended, current speed: {speed}");
     }
 
-    //private IEnumerator TemporarySpeedChange(float newSpeed, float speedBoostDuration)
-    //{
-    //    float originalSpeed = speed;
-    //    speed = newSpeed;
-    //    yield return new WaitForSeconds(speedBoostDuration);
-    //    speed = originalSpeed;
-    //}
 
 
     private void PlayerMaxDeform()
@@ -496,6 +472,7 @@ public class PlayerMovement : MonoBehaviour
         if (!playerScaled && transform.localScale.x > minPlayerWidth)
         {
             scaleX = transform.localScale;
+
             scaleX.x += 0.5f;
             transform.localScale = scaleX;
             Debug.Log("Scaling to MAX");
