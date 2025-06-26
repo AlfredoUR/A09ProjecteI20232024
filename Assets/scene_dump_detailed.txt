@@ -4,6 +4,26 @@ GameObject: PowerUp (1) (active: True)
   - Component: Rigidbody2D
   - Component: CircleCollider2D
   - Component: Halo
+  - Component: Light
+  - Component: UniversalAdditionalLightData
+      m_Version: 3
+      m_UsePipelineSettings: True
+      m_AdditionalLightsShadowResolutionTier: 2
+      m_LightLayerMask: LightLayerDefault
+      m_RenderingLayers: 1
+      m_CustomShadowLayers: False
+      m_ShadowLayerMask: LightLayerDefault
+      m_ShadowRenderingLayers: 1
+      m_LightCookieSize: (1.00, 1.00)
+      m_LightCookieOffset: (0.00, 0.00)
+      m_SoftShadowQuality: UsePipelineSettings
+
+GameObject: PowerUp (1) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
   - Component: PowerUp
       powerUpType: SPEEDBOOST
       duration: 5
@@ -34,6 +54,73 @@ GameObject: PowerUp (8) (active: True)
 
 GameObject: Walking enemy  (4) (active: True)
   - Component: Transform
+  - Component: Tilemap
+  - Component: TilemapRenderer
+  - Component: TilemapCollider2D
+  - Component: Rigidbody2D
+  - Component: CompositeCollider2D
+
+GameObject: sky (active: True)
+  - Component: Transform
+  - Component: Tilemap
+  - Component: TilemapRenderer
+
+GameObject: Ground (active: True)
+  - Component: Transform
+  - Component: Tilemap
+  - Component: TilemapRenderer
+  - Component: TilemapCollider2D
+  - Component: Rigidbody2D
+  - Component: CompositeCollider2D
+
+GameObject: Enemies (active: False)
+  - Component: Transform
+  - Component: Tilemap
+  - Component: TilemapRenderer
+  - Component: TilemapCollider2D
+  - Component: Rigidbody2D
+
+GameObject: LevelGrid (active: True)
+  - Component: Transform
+  - Component: Grid
+  - Component: Tilemap
+
+GameObject: PowerUp (4) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 1
+      valueY: 5,5
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
+
+GameObject: PowerUp (6) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: TELEPORT
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 2
+      valueY: 2,2
+      speedBoostMultiplier: 0
+      speedBoostDuration: 2
+
+GameObject: Walking enemy  (2) (active: True)
+  - Component: Transform
   - Component: SpriteRenderer
   - Component: BoxCollider2D
   - Component: Rigidbody2D
@@ -46,6 +133,30 @@ GameObject: Walking enemy  (4) (active: True)
 GameObject: Flying enemy (3) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
+  - Component: Rigidbody2D
+  - Component: CircleCollider2D
+  - Component: Halo
+  - Component: PowerUp
+      powerUpType: SPEEDBOOST
+      duration: 5
+      invulnerabilitySprite: Invulnerability (UnityEngine.Sprite)
+      speedBoostSprite: SpeedBoost (UnityEngine.Sprite)
+      teleportSprite: Teleport (UnityEngine.Sprite)
+      valueX: 0
+      valueY: 0
+      speedBoostMultiplier: 2
+      speedBoostDuration: 2
+
+GameObject: Dialogue_Trigger (active: True)
+  - Component: Transform
+  - Component: BoxCollider2D
+  - Component: TutorialTrigger
+      tutorialStage: 8
+      gameManager: GameManager (GameManager_Script)
+
+GameObject: Walking enemy  (3) (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
   - Component: BoxCollider2D
   - Component: Rigidbody2D
   - Component: FlyingEnemy
@@ -54,6 +165,41 @@ GameObject: Flying enemy (3) (active: True)
       moveHorizontally: True
 
 GameObject: PowerUp  (active: True)
+  - Component: Transform
+  - Component: SpriteRenderer
+  - Component: BoxCollider2D
+  - Component: Rigidbody2D
+  - Component: PlayerMovement
+      speed: 4
+      maxSpeed: 6
+      jumpForce: 12
+      fallMultiplier: 2,5
+      lowJumpMultiplier: 2
+      coyoteTime: 0,2
+      jumpBufferTime: 0,2
+      dashSpeed: 20
+      dashDuration: 0,9
+      dashDistance: 20
+      boostSpeed: 15
+      rb: Player (UnityEngine.Rigidbody2D)
+      ground: null
+      player: null
+      platform: null
+      platformTrigger: null
+      currentPlatform: null
+      gameManager: GameManager (UnityEngine.GameObject)
+      gameManagerScript: GameManager (GameManager_Script)
+      cameraTransform: Main Camera (UnityEngine.Transform)
+      levelIndex: 0
+      isTutorial: False
+      isGrounded: False
+      endLevel: False
+      gameOver: False
+      posX: 0
+      posY: 0
+      playerScaled: False
+
+GameObject: PowerUp (2) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
   - Component: Rigidbody2D
