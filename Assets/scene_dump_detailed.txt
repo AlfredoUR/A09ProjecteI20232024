@@ -4,6 +4,9 @@ GameObject: Dialogue_Trigger (active: True)
   - Component: TutorialTrigger
       tutorialStage: 8
       gameManager: GameManager (GameManager_Script)
+      lines: System.String[]
+      textSpeed: 0,3
+      tutorialStage: 0
 
 GameObject: Enemy (4) (active: True)
   - Component: Transform
@@ -137,8 +140,7 @@ GameObject: Walking enemy  (active: True)
 GameObject: InvisibleObstacle (active: True)
   - Component: Transform
   - Component: SpriteRenderer
-  - Component: BoxCollider2D
-  - Component: Rigidbody2D
+  - Component: CapsuleCollider2D
 
 GameObject: Walking enemy  (4) (active: True)
   - Component: Transform
@@ -346,10 +348,10 @@ GameObject: DialogueCanvas (active: True)
   - Component: RectTransform
   - Component: Canvas
   - Component: CanvasScaler
-      m_UiScaleMode: ScaleWithScreenSize
+      m_UiScaleMode: ConstantPixelSize
       m_ReferencePixelsPerUnit: 100
       m_ScaleFactor: 1
-      m_ReferenceResolution: (1920.00, 1080.00)
+      m_ReferenceResolution: (800.00, 600.00)
       m_ScreenMatchMode: MatchWidthOrHeight
       m_MatchWidthOrHeight: 0
       m_PhysicalUnit: Points
@@ -518,7 +520,6 @@ GameObject: PowerUp (6) (active: True)
 GameObject: Flying enemy (3) (active: True)
   - Component: Transform
   - Component: SpriteRenderer
-  - Component: BoxCollider2D
   - Component: Rigidbody2D
   - Component: FlyingEnemy
       moveDistance: 5
