@@ -92,7 +92,6 @@ public class PlayerMovement : MonoBehaviour
             cameraTransform = Camera.main != null ? Camera.main.transform : null;
         }
 
-        //gameManagerScript = FindObjectOfType<GameManager_Script>();
         levelIndex = gameManager.GetComponent<SceneChanger>().GetLevelIndex();
         speed = baseSpeed;
         previousSpeed = speed;
@@ -105,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = false;
         endLevel = false;
         isJumping = false;
-        gamePaused = gameManager.GetComponent<GameManager_Script>().isPaused;
+        gamePaused = gameManagerScript.IsGamePaused();
 
         ground = GameObject.FindWithTag("Ground");
         isDashing = false;
@@ -130,14 +129,18 @@ public class PlayerMovement : MonoBehaviour
             if (tutorialScript == null)
             {
                 Debug.LogError("Tutorial script not found on GameManager");
+                tutorialScript = FindObjectOfType<Tutorial>();
             }
         }
         levelIndex = gameManagerScript != null ? gameManagerScript.GetComponent<SceneChanger>()?.GetLevelIndex() ?? -1 : -1;
     }
     void Update()
     {
+        Debug.Log(canDash);
         posX = rb.position.x;
         posY = rb.position.y;
+
+        CheckEnemyDetection();
 
         if (!gameOver && !gamePaused)
         {
@@ -249,6 +252,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void CheckEnemyDetection()
+    {
+        EnemyScript[] enemies = FindObjectsOfType<EnemyScript>();
+        bool anyEnemyDetecting = false;
+
+        foreach (EnemyScript enemy in enemies)
+        {
+            if (enemy.IsDetectingPlayer())
+            {
+                anyEnemyDetecting = true;
+                break;
+            }
+        }
+
+        canDash = anyEnemyDetecting;
+    }
+
     void Jump()
     {
         if (isGrounded)
@@ -331,7 +351,6 @@ public class PlayerMovement : MonoBehaviour
         return isInvulnerable;
     }
 
-    ////////Canviar per ModifySpeed
     public void ActivateSpeedBoost(float boost, float duration)
     {
         if (transform.localScale.x != regularPlayerWidth)
@@ -460,16 +479,6 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log($"Speed: {speedBeforeBoost}, to {speed}. Duration: {speedBoostDuration}s");
         SetColor(Color.cyan);
 
-        //StartCoroutine(TemporarySpeedChange(newSpeed, speedBoostDuration));
-
-        //if (Time.time < Time.time + speedBoostDuration)
-        //{
-        //    SetColor(Color.cyan);
-        //}
-        //else
-        //{
-        //    SetColor(originalColor);
-        //}
 
     }
 
@@ -482,13 +491,6 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log($"Speed boost ended, current speed: {speed}");
     }
 
-    //private IEnumerator TemporarySpeedChange(float newSpeed, float speedBoostDuration)
-    //{
-    //    float originalSpeed = speed;
-    //    speed = newSpeed;
-    //    yield return new WaitForSeconds(speedBoostDuration);
-    //    speed = originalSpeed;
-    //}
 
 
     private void PlayerMaxDeform()
