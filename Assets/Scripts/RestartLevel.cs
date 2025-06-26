@@ -50,6 +50,16 @@ public class RestartLevel : MonoBehaviour
     public void RestartCurrentScene()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(currentSceneName);
+
+        if (currentSceneName == "GameOverScene")
+        {
+            string lastScene = PlayerPrefs.GetString("LastScene", "Tutorial");
+            SceneManager.LoadScene(lastScene);
+        }
+        else
+        {
+            SceneManager.LoadScene(currentSceneName);
+        }
     }
+
 }

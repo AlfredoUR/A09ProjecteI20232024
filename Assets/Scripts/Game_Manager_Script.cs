@@ -22,6 +22,8 @@ public class GameManager_Script : MonoBehaviour
     private bool isTutorial1;
     private bool isTutorial2;
     private bool isTutorial4;
+    public static string lastSceneBeforeGameOver;
+
 
     void Start()
     {
@@ -48,7 +50,9 @@ public class GameManager_Script : MonoBehaviour
         {
             tutorialScript = FindObjectOfType<Tutorial>();
             if (tutorialScript == null)
+            {
                 Debug.LogError("GameManager: No s'ha trobat cap Tutorial a l’escena.");
+            }
         }
 
         if (pausePanel != null)
