@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,14 +12,26 @@ public class GameManager_Script : MonoBehaviour
 
     public Tutorial tutorialScript;
 
-    public int score;
     public bool isPaused;
     public bool pauseTime = false;
+    public int tutorialIndex;
+
+    public bool debugMode = false;
 
     private int levelIndex;
     private bool isTutorial;
-    public int tutorialIndex;
+    private SceneChanger sceneChanger;
     public static string lastSceneBeforeGameOver;
+
+    void Awake()
+    {
+
+        sceneChanger = GetComponent<SceneChanger>();
+        if (sceneChanger == null)
+        {
+            Debug.LogError("GameManager: SceneChanger component not found!");
+        }
+    }
 
     void Start()
     {
@@ -30,30 +41,33 @@ public class GameManager_Script : MonoBehaviour
 
         if (isTutorial && tutorialScript != null)
         {
-            TriggerTutorial(0); 
+            Invoke(nameof(StartTutorial), 0.1f);
         }
     }
 
     void Update()
     {
-        if (scoreText != null)
-        {
-            scoreText.text = "Score: " + ScoreManager.Instance.score.ToString();
-        }
+        UpdateUI();
         HandleInput();
+        HandlePauseTime();
+    }
 
-        if (pauseTime)
+    private void StartTutorial()
+    {
+        if (tutorialScript != null)
         {
-            PauseGame();
-            pauseTime = false; 
+            TriggerTutorial(0);
+        }
+        else
+        {
+            Debug.LogError("GameManager: Cannot start tutorial - Tutorial script is null!");
         }
     }
+
     private void InitializeGame()
     {
-        score = 0;
         isPaused = false;
 
-        SceneChanger sceneChanger = GetComponent<SceneChanger>();
         if (sceneChanger != null)
         {
             levelIndex = sceneChanger.GetLevelIndex();
@@ -61,47 +75,59 @@ public class GameManager_Script : MonoBehaviour
         }
         else
         {
-            Debug.LogError("GameManager: SceneChanger component not found!");
             levelIndex = -1;
+            Debug.LogError("GameManager: Cannot determine level index!");
         }
+
+        if (debugMode)
+            Debug.Log($"GameManager: Initialized - Level: {levelIndex}, IsTutorial: {isTutorial}");
     }
 
     private void SetupUI()
     {
-        if (scoreText != null)
+        SetPanelActive(pausePanel, false, "pausePanel");
+        SetPanelActive(gameOverPanel, false, "gameOverPanel");
+        SetPanelActive(gameUIPanel, true, "gameUIPanel");
+    }
+
+    private void SetPanelActive(GameObject panel, bool active, string panelName)
+    {
+        if (panel != null)
         {
-            scoreText.text = "Score: " + score;
+            panel.SetActive(active);
         }
-        else
+        else if (debugMode)
         {
-            Debug.LogWarning("GameManager: scoreText not assigned in inspector.");
+            Debug.LogWarning($"GameManager: {panelName} not assigned in inspector.");
         }
-
-        if (pausePanel != null)
-            pausePanel.SetActive(false);
-        else
-            Debug.LogWarning("GameManager: pausePanel not assigned in inspector.");
-
-        if (gameOverPanel != null)
-            gameOverPanel.SetActive(false);
-        else
-            Debug.LogWarning("GameManager: gameOverPanel not assigned in inspector.");
-
-        if (gameUIPanel != null)
-            gameUIPanel.SetActive(true);
-        else
-            Debug.LogWarning("GameManager: gameUIPanel not assigned in inspector.");
     }
 
     private void FindDependencies()
     {
         if (tutorialScript == null)
         {
-            tutorialScript = FindObjectOfType<Tutorial>();
+            tutorialScript = GetComponent<Tutorial>();
+
+            if (tutorialScript == null)
+            {
+                tutorialScript = FindObjectOfType<Tutorial>();
+            }
+
             if (tutorialScript == null && isTutorial)
             {
                 Debug.LogError("GameManager: No Tutorial script found in tutorial level.");
             }
+        }
+
+        if (debugMode && tutorialScript != null)
+            Debug.Log($"GameManager: Tutorial script found: {tutorialScript.name}");
+    }
+
+    private void UpdateUI()
+    {
+        if (scoreText != null && ScoreManager.Instance != null)
+        {
+            scoreText.text = "Score: " + ScoreManager.Instance.score.ToString();
         }
     }
 
@@ -110,6 +136,15 @@ public class GameManager_Script : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePauseGame();
+        }
+    }
+
+    private void HandlePauseTime()
+    {
+        if (pauseTime)
+        {
+            PauseGame();
+            pauseTime = false;
         }
     }
 
@@ -144,15 +179,13 @@ public class GameManager_Script : MonoBehaviour
 
     public void AddScore()
     {
-        score++;
-        if (scoreText != null)
-        {
-            scoreText.text = "Score: " + score.ToString();
-        }
-
         if (ScoreManager.Instance != null)
         {
-            ScoreManager.Instance.score = score; 
+            ScoreManager.Instance.AddScore(1);
+            if (scoreText != null)
+            {
+                scoreText.text = "Score: " + ScoreManager.Instance.score.ToString();
+            }
         }
     }
 
@@ -165,7 +198,6 @@ public class GameManager_Script : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
-
     }
 
     public void PauseGame()
@@ -185,14 +217,30 @@ public class GameManager_Script : MonoBehaviour
         if (tutorialScript == null)
         {
             Debug.LogError("GameManager: Cannot trigger tutorial - Tutorial script is null!");
-            return;
+
+            tutorialScript = FindObjectOfType<Tutorial>();
+
+            if (tutorialScript == null)
+            {
+                Debug.LogError("GameManager: Still cannot find Tutorial script!");
+                return;
+            }
         }
 
         tutorialIndex = stage;
         string[] tutorialLines = GetTutorialLines(stage);
 
+        if (tutorialLines == null || tutorialLines.Length == 0)
+        {
+            Debug.LogError($"GameManager: No tutorial lines found for stage {stage}");
+            return;
+        }
+
         PauseGame();
         tutorialScript.SetTutorialText(tutorialLines);
+
+        if (debugMode)
+            Debug.Log($"GameManager: Triggered tutorial stage {stage}");
     }
 
     private string[] GetTutorialLines(int stage)
@@ -223,22 +271,12 @@ public class GameManager_Script : MonoBehaviour
             case 11:
                 return new string[] { "En Walter sen's ha avançat i ha col·locat 2 còpies de les llaunes on no t'afavoreixen." };
             default:
+                Debug.LogWarning($"GameManager: No tutorial text defined for stage {stage}");
                 return new string[] { "Default tutorial text" };
         }
     }
 
-    // Método para obtener información del nivel actual
-    public int GetLevelIndex()
-    {
-        return levelIndex;
-    }
-
-    public bool IsTutorial()
-    {
-        return isTutorial;
-    }
-    public bool IsGamePaused()
-    {
-        return isPaused;
-    }
+    public int GetLevelIndex() => levelIndex;
+    public bool IsTutorial() => isTutorial;
+    public bool IsGamePaused() => isPaused;
 }

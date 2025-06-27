@@ -70,7 +70,7 @@ public class RestartLevel : MonoBehaviour
             SceneManager.LoadScene(currentSceneName);
         }
 
-        Time.timeScale = 1.0f; // important si estava pausat
+        Time.timeScale = 1.0f; 
     }
 
 }
