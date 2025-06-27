@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor;
 
 public class Tutorial : MonoBehaviour
 {
@@ -10,65 +8,42 @@ public class Tutorial : MonoBehaviour
     public Canvas tutorialCanvas;
     public GameManager_Script gameManager;
     public string[] lines;
-    public float textSpeed;
+    public float textSpeed = 0.05f;
     public int tutorialStage;
     private int index;
 
-    public string zeroTutorial;
-    public string firstTutorial;
-    public string secondTutorial;
-    public string thirdTutorial;
-    public string fourthTutorial;
-    // Start is called before the first frame update
     void Start()
     {
-        tutorialCanvas.gameObject.SetActive(false);
-        //index = 0;
-        //zeroTutorial = "This is the first stage of the Tutorial, here you will learn how to move";
-        //firstTutorial = "Burgers and junk food will make you go slower";
-        //secondTutorial = "This is the secondTutorial";
-        //thirdTutorial = "This is the third Tutorial";
+        if (tutorialText == null)
+        {
+            tutorialText = FindObjectOfType<TextMeshProUGUI>();
+            if (tutorialText == null)
+                Debug.LogError("Tutorial: No s'ha trobat cap TextMeshProUGUI a l'escena.");
+        }
 
+        if (tutorialCanvas == null)
+        {
+            tutorialCanvas = FindObjectOfType<Canvas>();
+            if (tutorialCanvas == null)
+                Debug.LogError("Tutorial: No s'ha trobat cap Canvas a l'escena.");
+        }
 
-        //switch (tutorialStage)
-        //{
-        //    case 0:
-        //       tutorialText.text = zeroTutorial;
-        //        StartDialogue();
-        //        break;
-        //    case 1:
-        //        tutorialText.text = firstTutorial; 
-        //        StartDialogue(); 
-        //        break;
-        //    case 2:
-        //        tutorialText.text = secondTutorial; 
-        //        StartDialogue(); 
-        //        break;
-        //    case 3:
-        //        tutorialText.text = thirdTutorial;
-        //        StartDialogue();
-        //        break;
-        //    case 4:
-        //        tutorialText.text = fourthTutorial;
-        //        StartDialogue();
-        //        break;
-        //    default:
-        //        break;
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager_Script>();
+            if (gameManager == null)
+                Debug.LogError("Tutorial: No s'ha trobat GameManager_Script.");
+        }
 
-        //}
-        //tutorialText.text = string.Empty;
-        //StartDialogue();
+        if (tutorialCanvas != null)
+            tutorialCanvas.gameObject.SetActive(false);
     }
 
-    public void SetTutorialText(string[] tutorialLines)
-    {
-        lines = tutorialLines;
-        StartDialogue();
-    }
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (lines == null || lines.Length == 0 || tutorialText == null) return;
+
+        if (Input.GetMouseButtonDown(0))
         {
             if (tutorialText.text == lines[index])
             {
@@ -82,18 +57,30 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    public void StartDialogue()
+    public void SetTutorialText(string[] tutorialLines)
     {
-        index = 0;
-        //tutorialText.text = zeroTutorial;
-        tutorialText.text = string.Empty;
-        tutorialCanvas.gameObject.SetActive(true);
-        StartCoroutine(Typeline());
+        lines = tutorialLines;
+        StartDialogue();
     }
 
-    IEnumerator Typeline()
+    public void StartDialogue()
     {
-        foreach (char c in lines[index].ToCharArray())
+        if (lines == null || lines.Length == 0 || tutorialText == null || tutorialCanvas == null)
+        {
+            Debug.LogError("Tutorial: Error a StartDialogue(). Falten referències.");
+            return;
+        }
+
+        index = 0;
+        tutorialText.text = string.Empty;
+        tutorialCanvas.gameObject.SetActive(true);
+        StartCoroutine(TypeLine());
+    }
+
+    IEnumerator TypeLine()
+    {
+        tutorialText.text = "";
+        foreach (char c in lines[index])
         {
             tutorialText.text += c;
             yield return new WaitForSeconds(textSpeed);
@@ -102,17 +89,20 @@ public class Tutorial : MonoBehaviour
 
     void NextLine()
     {
-        if (index < lines.Length - 1)
+        if (++index < lines.Length)
         {
-            index++;
             tutorialText.text = string.Empty;
-            StartCoroutine(Typeline());
+            StartCoroutine(TypeLine());
         }
         else
         {
+            if (tutorialCanvas != null)
+                tutorialCanvas.gameObject.SetActive(false);
+
             gameObject.SetActive(false);
-            tutorialCanvas.gameObject.SetActive(false);
-            gameManager.ResumeGame();
+
+            if (gameManager != null)
+                gameManager.ResumeGame();
         }
     }
 }
