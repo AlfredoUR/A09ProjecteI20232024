@@ -27,6 +27,11 @@ public class GameManager_Script : MonoBehaviour
         InitializeGame();
         SetupUI();
         FindDependencies();
+
+        if (isTutorial && tutorialScript != null)
+        {
+            TriggerTutorial(0); 
+        }
     }
 
     void Update()
