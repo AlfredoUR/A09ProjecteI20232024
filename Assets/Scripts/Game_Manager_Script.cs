@@ -160,7 +160,6 @@ public class GameManager_Script : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;
 
     }
 
