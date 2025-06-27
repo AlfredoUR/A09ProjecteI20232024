@@ -19,11 +19,14 @@ public class SceneChanger : MonoBehaviour
 
     public void LoadTutorial(Scene tutorial)
     {
+        PlayerPrefs.DeleteAll();
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("Tutorial");
     }
     public void LoadLevel1(Scene level1)
     {
-        SceneManager.LoadScene("GameMechanics");
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene("Level1");
     }
 
     public void MainMenu(Scene gameOverScene)

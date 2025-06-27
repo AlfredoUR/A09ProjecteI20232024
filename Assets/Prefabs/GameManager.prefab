@@ -46,9 +46,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 0}
+  tutorialScript: {fileID: 0}
   score: 0
   tutorialIndex: 0
+  pausePanel: {fileID: 0}
+  gameOverPanel: {fileID: 0}
+  gameUIPanel: {fileID: 0}
   isPaused: 0
+  pauseText: {fileID: 0}
   pauseTime: 0
 --- !u!114 &3263683519082237027
 MonoBehaviour:
