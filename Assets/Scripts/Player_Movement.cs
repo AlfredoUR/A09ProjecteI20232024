@@ -422,6 +422,17 @@ public class PlayerMovement : MonoBehaviour
                 //other.gameObject.GetComponent<Tutorial>().StartDialogue();
                 break;
             case "Enemy":
+                if (isDashing || isInvulnerable)
+                {
+                    Destroy(other.gameObject);
+                    ScoreManager.Instance.AddScore(50);
+                    SoundManagerScript.Instance.PlayDestroy();
+                }
+                else
+                {
+                    gameOver = true;
+                }
+                break;
             case "Obstacle":
                 if (isDashing || isInvulnerable)
                 {
@@ -482,7 +493,6 @@ public class PlayerMovement : MonoBehaviour
 
             scaleX.x += 0.5f;
             transform.localScale = scaleX;
-            Debug.Log("Scaling to MAX");
             speed = Mathf.Max(1.0f, speed - 1);
         }
         playerScaled = true;

@@ -31,11 +31,10 @@ public class GameManager_Script : MonoBehaviour
 
     void Update()
     {
-        if (!isPaused)
+        if (scoreText != null)
         {
-            AddScore(); 
+            scoreText.text = "Score: " + ScoreManager.Instance.score.ToString();
         }
-
         HandleInput();
 
         if (pauseTime)
