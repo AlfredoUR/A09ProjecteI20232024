@@ -48,6 +48,11 @@ public class EnemyScript : MonoBehaviour
         {
             isDetectingPlayer = true;
             spriteRenderer.color = alertColor;
+            if (ScoreManager.Instance != null)
+            {
+                ScoreManager.Instance.AddScore(50);
+            }
+            Destroy(gameObject);
         }
     }
 
