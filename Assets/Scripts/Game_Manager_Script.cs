@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
 
 public class GameManager_Script : MonoBehaviour
 {
@@ -25,7 +26,6 @@ public class GameManager_Script : MonoBehaviour
 
     void Awake()
     {
-
         sceneChanger = GetComponent<SceneChanger>();
         if (sceneChanger == null)
         {
@@ -39,10 +39,25 @@ public class GameManager_Script : MonoBehaviour
         SetupUI();
         FindDependencies();
 
+        StartCoroutine(WaitForScoreManagerAndSetupUI());
+
         if (isTutorial && tutorialScript != null)
         {
             Invoke(nameof(StartTutorial), 0.1f);
         }
+    }
+
+    private IEnumerator WaitForScoreManagerAndSetupUI()
+    {
+        while (!ScoreManager.IsInstanceActive())
+        {
+            yield return null; 
+        }
+
+        UpdateUI();
+
+        if (debugMode)
+            Debug.Log("GameManager: ScoreManager found and UI updated");
     }
 
     void Update()
@@ -125,9 +140,14 @@ public class GameManager_Script : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (scoreText != null && ScoreManager.Instance != null)
+        if (scoreText != null && ScoreManager.IsInstanceActive())
         {
-            scoreText.text = "Score: " + ScoreManager.Instance.score.ToString();
+            int currentScore = ScoreManager.GetCurrentScore();
+            scoreText.text = "Score: " + currentScore.ToString();
+        }
+        else if (scoreText != null && !ScoreManager.IsInstanceActive())
+        {
+            scoreText.text = "Score: 0";
         }
     }
 
@@ -179,13 +199,27 @@ public class GameManager_Script : MonoBehaviour
 
     public void AddScore()
     {
-        if (ScoreManager.Instance != null)
+        if (ScoreManager.IsInstanceActive())
         {
             ScoreManager.Instance.AddScore(1);
-            if (scoreText != null)
-            {
-                scoreText.text = "Score: " + ScoreManager.Instance.score.ToString();
-            }
+            UpdateUI();
+        }
+        else
+        {
+            Debug.LogWarning("GameManager: Cannot add score - ScoreManager not available");
+        }
+    }
+
+    public void AddScore(int amount)
+    {
+        if (ScoreManager.IsInstanceActive())
+        {
+            ScoreManager.Instance.AddScore(amount);
+            UpdateUI();
+        }
+        else
+        {
+            Debug.LogWarning($"GameManager: Cannot add {amount} score - ScoreManager not available");
         }
     }
 
