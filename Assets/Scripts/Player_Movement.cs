@@ -135,7 +135,6 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log(canDash);
         posX = rb.position.x;
         posY = rb.position.y;
 
@@ -216,6 +215,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded && Input.GetKeyUp(KeyCode.LeftShift) && !isDashing && canDash)
         {
             StartDash();
+            SoundManagerScript.Instance.PlayDash();
         }
 
         if (isDashing)
@@ -245,26 +245,11 @@ public class PlayerMovement : MonoBehaviour
         canDash = anyEnemyDetecting;
     }
 
-    void CheckEnemyDetection()
-    {
-        EnemyScript[] enemies = FindObjectsOfType<EnemyScript>();
-        bool anyEnemyDetecting = false;
 
-        foreach (EnemyScript enemy in enemies)
-        {
-            if (enemy.IsDetectingPlayer())
-            {
-                anyEnemyDetecting = true;
-                break;
-            }
-        }
-
-        canDash = anyEnemyDetecting;
-    }
 
     void Jump()
     {
-        
+        SoundManagerScript.Instance.PlayJump();
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         isJumping = true;
         coyoteTimeCounter = 0f;
@@ -304,6 +289,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (canTeleport && Input.GetKeyDown(KeyCode.Z))
         {
+            SoundManagerScript.Instance.PlayTeleport();
             Teleport();
         }
     }
@@ -392,6 +378,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     Destroy(collision.gameObject);
+                    SoundManagerScript.Instance.PlayDestroy();
                 }
                 break;
             //case "Goal":
@@ -405,6 +392,7 @@ public class PlayerMovement : MonoBehaviour
             case "JunkFood":
                 PlayerMaxDeform();
                 Destroy(collision.gameObject);
+                SoundManagerScript.Instance.PlayEat();
                 playerScaled = false;
                 break;
         }
@@ -438,6 +426,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isDashing || isInvulnerable)
                 {
                     Destroy(other.gameObject);
+                    SoundManagerScript.Instance.PlayDestroy();
                 }
                 else
                 {
@@ -448,7 +437,8 @@ public class PlayerMovement : MonoBehaviour
                 PlayerMinDeform();
                 float speedBoostDuration = 3.0f;
                 ModifySpeed(1.6f, speedBoostDuration);
-                Destroy(other.gameObject);
+                SoundManagerScript.Instance.PlayBoost();
+                Destroy(other.gameObject, 0.1f);
                 //playerScaled = false;
                 break;
         }
